@@ -135,12 +135,12 @@
         { t: 'Asset orchestration', h: 'research.html', d: 'Coordinate assets across the operation.', i: 'grid' }
       ],
       links: [
-        { t: 'High-tech manufacturing', h: 'index.html#industries', i: 'cpu' },
-        { t: 'Data centers', h: 'index.html#industries', i: 'server' },
-        { t: 'Power & utilities', h: 'index.html#industries', i: 'zap' },
-        { t: 'Life sciences', h: 'index.html#industries', i: 'flask' },
-        { t: 'Process manufacturing', h: 'index.html#industries', i: 'factory' },
-        { t: 'Consumer packaged goods', h: 'index.html#industries', i: 'box' }
+        { t: 'High-tech manufacturing', h: './#industries', i: 'cpu' },
+        { t: 'Data centers', h: './#industries', i: 'server' },
+        { t: 'Power & utilities', h: './#industries', i: 'zap' },
+        { t: 'Life sciences', h: './#industries', i: 'flask' },
+        { t: 'Process manufacturing', h: './#industries', i: 'factory' },
+        { t: 'Consumer packaged goods', h: './#industries', i: 'box' }
       ]
     },
     'company.html': {
@@ -148,7 +148,7 @@
         { t: 'About Rive', h: 'company.html', d: 'Our mission and the principles behind Rive.', i: 'building' },
         { t: 'Careers', h: 'careers.html', d: 'Help build the future of industrial operations.', i: 'briefcase' }
       ],
-      casesMore: 'index.html#cases',
+      casesMore: './#cases',
       cases: [
         { t: 'Orchestrating maintenance at industrial scale', d: 'Oil & gas', h: 'case-orchestrating-maintenance.html', i: 'wrench' },
         { t: 'AI-powered asset digitization', d: 'Data center', h: 'case-data-center.html', i: 'server' }
