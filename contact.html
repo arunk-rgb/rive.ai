@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Contact us | Rive</title>
+<meta name="description" content="Get in touch with Rive." />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Crect width='256' height='256' rx='52' fill='%2300A21E'/%3E%3Cpath d='M72.9044 183.032V107.531C72.9044 100.99 76.4011 94.9289 82.0644 91.6654L117.127 71.4258H90.3604L55.2976 91.6654C49.6344 94.9427 46.1377 100.99 46.1377 107.531V183.032H72.9044Z' fill='%23F3FCE9'/%3E%3Cpath d='M121.474 183.032V107.531C121.474 100.99 124.971 94.9289 130.634 91.6654L165.669 71.4258H138.902L103.84 91.6654C98.1764 94.9427 94.6797 100.99 94.6797 107.531V183.032H121.46H121.474Z' fill='%23F3FCE9'/%3E%3Cpath d='M170.002 183.032V107.531C170.002 100.99 173.499 94.9289 179.162 91.6654L214.225 71.4258H187.458L152.395 91.6654C146.732 94.9427 143.235 100.99 143.235 107.531V183.032H170.002Z' fill='%23F3FCE9'/%3E%3C/svg%3E" />
+<style>
+  :root{--bg:#ffffff;--panel:#f6f6f2;--panel-2:#fafaf7;--ink:#1a1614;--muted:#6b6862;--faint:#9a978f;--line:#eceae4;--line-2:#dcdad3;--dark:#211d1a;--dark-hover:#302b26;--teal:#052424;--lime:#abff02;--green:#00A21E;--sans:"Geist",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;--mono:var(--sans);--serif:var(--sans);--radius:999px;}
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:#06070c;color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  /* SideRays background (ported from React Bits) */
+  .rays-bg{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(130% 100% at 100% 0%,#0c1018 0%,#06070c 60%)}
+  .rays-bg canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+  a{color:inherit;text-decoration:none}
+  h1,h2,h3{margin:0;font-family:var(--sans);font-weight:600;letter-spacing:-.02em;line-height:1.15}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+
+nav.bar{position:fixed;top:34px;left:0;right:0;z-index:50;display:flex;justify-content:center;align-items:center;padding:0 24px;pointer-events:none;transition:top .35s cubic-bezier(.4,0,.2,1)}
+  .bar{--nav-pill-bg:rgba(244,244,240,.72);--nav-pill-bd:rgba(255,255,255,.55);--nav-shadow:0 1px 2px rgba(0,0,0,.05),0 10px 30px rgba(0,0,0,.06);--nav-text:#5b5852;--nav-strong:#141210;--nav-hover-bg:rgba(0,0,0,.055);--nav-logo:#141210;--nav-btn-bg:#1b1815;--nav-btn-text:#f6f4f0;--nav-btn-hover:#2c2723}
+  .bar[data-theme="dark"]{--nav-pill-bg:rgba(20,22,28,.42);--nav-pill-bd:rgba(255,255,255,.15);--nav-shadow:0 1px 2px rgba(0,0,0,.22),0 12px 34px rgba(0,0,0,.34);--nav-text:rgba(255,255,255,.72);--nav-strong:#ffffff;--nav-hover-bg:rgba(255,255,255,.13);--nav-logo:#ffffff;--nav-btn-bg:#f6f4f0;--nav-btn-text:#161310;--nav-btn-hover:#ffffff}
+  .bar.scrolled{top:18px}
+  .bar.scrolled .pill{--nav-pill-bg:rgba(249,249,246,.9)}
+  .bar.scrolled[data-theme="dark"] .pill{--nav-pill-bg:rgba(16,18,24,.62)}
+  @media(prefers-reduced-motion:reduce){nav.bar,.pill,.nav-links a,.nav-right .signin,.btn-dark,.nav-brand .brand-logo path{transition:none}}
+  .navgrid{width:100%;max-width:1440px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:16px}
+  .nav-brand{justify-self:start;pointer-events:auto;display:flex;align-items:center;height:52px;padding:0 22px}
+  .nav-brand .brand-logo{height:20px;width:auto;display:block}
+  .nav-brand .brand-logo path{fill:var(--nav-logo);transition:fill .35s ease}
+  .nav-links{justify-self:center;pointer-events:auto;display:flex;align-items:center;height:52px;gap:2px;padding:0 6px}
+  .nav-links a{padding:9px 16px;border-radius:var(--radius);font-size:14px;font-weight:500;letter-spacing:-.006em;color:var(--nav-text);transition:color .25s ease,background .25s ease}
+  .nav-links a:hover{background:var(--nav-hover-bg);color:var(--nav-strong)}
+  .nav-links a[aria-current="page"]{color:var(--nav-strong);background:var(--nav-hover-bg)}
+  .nav-actions{justify-self:end;position:relative;display:flex;align-items:center;gap:10px}
+  .pill{pointer-events:auto;background:var(--nav-pill-bg);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    border:1px solid var(--nav-pill-bd);border-radius:var(--radius);box-shadow:var(--nav-shadow);transition:background .45s ease,border-color .45s ease,box-shadow .45s ease}
+  .nav-main{display:flex;align-items:center;gap:4px;padding:8px 16px 8px 12px}
+  .nav-main .brand{display:flex;align-items:center;padding:4px 6px;margin-right:2px}
+  .nav-main .nav-link{padding:8px 16px;border-radius:var(--radius);font-size:14px;color:var(--muted);transition:.2s}
+  .nav-main .nav-link:hover{background:rgba(0,0,0,.05);color:var(--ink)}
+  .nav-center{justify-self:center;display:flex;align-items:center;gap:10px;padding:14px 26px}
+  .brand{display:flex;align-items:center;gap:10px;font-size:19px;letter-spacing:.01em}
+  .logo{width:22px;height:22px;flex:0 0 auto}
+  .brand-logo{height:21px;width:auto;flex:0 0 auto;display:block}
+  .nav-right{display:flex;align-items:center;height:52px;gap:8px;padding:0 6px}
+  .nav-right .signin{padding:9px 18px;font-size:14px;font-weight:500;letter-spacing:-.006em;color:var(--nav-text);border-radius:var(--radius);transition:color .25s ease,background .25s ease}
+  .nav-right .signin:hover{color:var(--nav-strong);background:var(--nav-hover-bg)}
+  .btn{display:inline-flex;align-items:center;gap:8px;border-radius:var(--radius);font-size:14.5px;font-weight:500;cursor:pointer;border:1px solid transparent;transition:.2s;white-space:nowrap}
+  .btn-dark{background:var(--nav-btn-bg);color:var(--nav-btn-text);font-size:14px;letter-spacing:-.006em;padding:9px 20px;transition:background .3s ease,color .3s ease}
+  .btn-dark:hover{background:var(--nav-btn-hover)}
+  .nav-actions .btn-dark::after{content:"\2192";font-size:13px;line-height:1;display:inline-block;transition:transform .25s ease}
+  .nav-actions .btn-dark:hover::after{transform:translateX(3px)}
+  .btn-ghost{background:transparent;color:var(--ink);padding:14px 22px;position:relative}
+  .btn-ghost .corners{position:absolute;inset:0;border-radius:14px;border:1px dashed var(--line);}
+  .btn-ghost:hover .corners{border-color:var(--faint)}
+
+  /* brand + hamburger group */
+  .nav-brand-group{display:flex;align-items:center;gap:10px;position:relative}
+  .nav-burger{display:none;width:46px;height:46px;padding:0;align-items:center;justify-content:center;cursor:pointer}
+  .burger-ico{position:relative;width:18px;height:12px;display:block}
+  .burger-ico i{position:absolute;left:0;right:0;height:2px;background:var(--nav-logo);border-radius:2px;transition:transform .25s,opacity .2s,top .25s}
+  .burger-ico i:nth-child(1){top:0}
+  .burger-ico i:nth-child(2){top:5px}
+  .burger-ico i:nth-child(3){top:10px}
+  .nav-burger.open .burger-ico i:nth-child(1){top:5px;transform:rotate(45deg)}
+  .nav-burger.open .burger-ico i:nth-child(2){opacity:0}
+  .nav-burger.open .burger-ico i:nth-child(3){top:5px;transform:rotate(-45deg)}
+  /* dropdown menu (responsive only) */
+  .nav-menu{display:none;position:absolute;top:calc(100% + 12px);right:0;min-width:212px;flex-direction:column;gap:2px;padding:10px;
+    background:rgba(242,242,236,.86);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+    border:1px solid rgba(255,255,255,.55);border-radius:20px;box-shadow:0 14px 44px rgba(0,0,0,.14);
+    opacity:0;visibility:hidden;pointer-events:none;transform:translateY(-8px) scale(.98);transform-origin:top right;
+    transition:opacity .22s,transform .22s,visibility .22s;z-index:60}
+  .nav-menu a{padding:12px 16px;border-radius:12px;font-size:15px;color:var(--muted);transition:background .15s,color .15s}
+  .nav-menu a:hover{background:rgba(0,0,0,.06);color:var(--ink)}
+
+  @media(max-width:900px){
+    .nav-links,.nav-right .signin{display:none}
+    .navgrid{grid-template-columns:auto 1fr}
+    .nav-burger{display:flex}
+    .nav-brand-group{grid-column:1;justify-self:start}
+    .nav-center{padding:12px 18px}
+    .nav-right{grid-column:2;justify-self:end}
+    .nav-menu{display:flex}
+    .nav-menu.open{opacity:1;visibility:visible;pointer-events:auto;transform:none}
+  }
+
+  .pt{position:fixed;inset:0;z-index:500;display:grid;grid-template-columns:repeat(4,1fr);pointer-events:none}
+  .pt i{background:#0b0c0c;will-change:transform;animation:ptUp .55s cubic-bezier(.76,0,.24,1) forwards}
+  .pt i:nth-child(even){animation-name:ptDown}
+  .pt i:nth-child(2){animation-delay:.06s}.pt i:nth-child(3){animation-delay:.12s}.pt i:nth-child(4){animation-delay:.18s}
+  @keyframes ptUp{to{transform:translateY(-101%)}}@keyframes ptDown{to{transform:translateY(101%)}}
+  @media(prefers-reduced-motion:reduce){.pt{display:none}}
+
+  .contact-sec{position:relative;z-index:1;min-height:100vh;display:flex;align-items:center;padding:clamp(140px,18vw,220px) 0 clamp(60px,8vw,110px)}
+  .contact-sec .wrap{width:100%}
+  .contact-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(32px,5vw,64px);align-items:start}
+  @media(max-width:820px){.contact-grid{grid-template-columns:1fr;gap:36px}}
+  .contact-eyebrow{letter-spacing:.02em;font-size:14px;color:rgba(255,255,255,.55);margin:0 0 16px}
+  .contact-left h1{font-size:clamp(40px,6vw,72px);letter-spacing:-.04em;line-height:1;color:#fff;margin:0}
+  .contact-lead{margin:18px 0 0;font-size:clamp(16px,1.8vw,19px);line-height:1.55;color:rgba(255,255,255,.7);max-width:38ch}
+  .contact-meta{margin-top:30px}
+  .contact-block{margin-top:22px}
+  .contact-k{display:block;font-size:12px;letter-spacing:.02em;color:rgba(255,255,255,.42);margin-bottom:6px}
+  .contact-block a{color:#fff;font-weight:500;font-size:16px;transition:color .2s}
+  .contact-block a:hover{color:#7CFF9B}
+  .contact-block address{font-style:normal;color:rgba(255,255,255,.62);font-size:15px;line-height:1.7}
+  .contact-card{background:#fff;border:1px solid var(--line);border-radius:24px;padding:clamp(26px,3.4vw,42px);box-shadow:0 24px 60px -30px rgba(0,0,0,.3)}
+  .contact-card .frow{margin-top:16px}.contact-card .frow:first-child{margin-top:0}
+  .contact-card .frow.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:520px){.contact-card .frow.two{grid-template-columns:1fr}}
+  .field{display:flex;flex-direction:column}
+  .field label{font-size:13px;font-weight:500;color:var(--ink);margin-bottom:7px}
+  .field input,.field textarea{font-family:var(--sans);font-size:15px;color:var(--ink);background:#fff;border:1px solid var(--line-2);border-radius:12px;padding:13px 15px;width:100%;transition:border-color .2s,box-shadow .2s}
+  .field textarea{resize:vertical;min-height:120px}
+  .field input::placeholder,.field textarea::placeholder{color:#b6b3ac}
+  .field input:focus,.field textarea:focus{outline:none;border-color:#00A21E;box-shadow:0 0 0 3px rgba(0,162,30,.14)}
+  .contact-submit{margin-top:20px;width:100%;background:var(--dark);color:#f4f2ee;border:none;border-radius:12px;padding:16px;font-family:var(--sans);font-size:15px;font-weight:600;cursor:pointer;transition:background .2s,transform .2s}
+  .contact-submit:hover{background:var(--dark-hover);transform:translateY(-1px)}
+  .contact-done{text-align:center;padding:30px 10px}
+  .done-ico{width:56px;height:56px;border-radius:50%;background:#00A21E;color:#fff;font-size:26px;display:flex;align-items:center;justify-content:center;margin:0 auto 18px}
+  .contact-done h3{font-size:24px;color:var(--ink)}
+  .contact-done p{margin-top:10px;color:var(--muted);font-size:16px}
+/* ---------- FOOTER (Terminal-style) ---------- */
+  .tf{position:relative;background:#052424;color:#fff;font-family:var(--sans);overflow:hidden}
+  .tf-glow{position:absolute;left:50%;top:0;width:min(760px,70%);height:420px;transform:translateX(-50%);pointer-events:none;z-index:0;
+    background:radial-gradient(ellipse at 50% 0%,rgba(171,255,2,.10),rgba(171,255,2,0) 68%)}
+  .tf-frame{position:absolute;inset:24px;border:1px solid rgba(255,255,255,.07);border-radius:44px;pointer-events:none;z-index:1}
+  .tf-dots{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;display:block}
+  .tf-inner{position:relative;z-index:2;max-width:1440px;margin:0 auto;padding:0 clamp(24px,5vw,80px)}
+
+  /* CTA band */
+  .tf-cta{text-align:center;padding:clamp(78px,12vw,150px) 0 clamp(116px,16vw,208px)}
+  .tf-cta h2{font-family:var(--sans);font-weight:400;font-size:clamp(38px,7vw,70px);line-height:.95;letter-spacing:-.02em;color:#fff;max-width:none;margin:0 auto}
+  .tf-take{position:relative;overflow:hidden;display:inline-block;margin-top:clamp(32px,4vw,52px);background:rgba(255,255,255,.15);color:#fff;
+    font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:1.98px;text-transform:uppercase;
+    padding:15px 40px;border-radius:8px;transition:background .25s,transform .25s,box-shadow .25s;backdrop-filter:blur(4px)}
+  .tf-take span{position:relative;z-index:1}
+  .tf-take::before{content:"";position:absolute;top:0;left:-160%;width:70%;height:100%;z-index:0;
+    background:linear-gradient(100deg,transparent,rgba(255,255,255,.45),transparent);
+    transform:skewX(-18deg);animation:tf-shine 3.8s ease-in-out infinite}
+  @keyframes tf-shine{0%{left:-160%}55%,100%{left:160%}}
+  .tf-take:hover{background:rgba(255,255,255,.28);transform:translateY(-3px);box-shadow:0 14px 34px rgba(0,0,0,.28)}
+  @media(prefers-reduced-motion:reduce){.tf-take::before{animation:none}}
+
+  /* columns */
+  .tf-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1.3fr;gap:44px;padding-bottom:clamp(50px,7vw,88px)}
+  @media(max-width:860px){.tf-grid{grid-template-columns:1fr 1fr;gap:44px 32px}}
+  @media(max-width:520px){.tf-grid{grid-template-columns:1fr;gap:38px}}
+  .tf-logo{display:flex;align-items:center;gap:11px;font-size:27px;font-weight:600;color:#fff;letter-spacing:.01em}
+  .tf-logo svg{width:30px;height:30px;flex:0 0 auto}
+  .tf-tag{margin-top:22px;color:#586a6a;font-size:15px;line-height:1.6;max-width:28ch}
+  .tf-tag address{font-style:normal;margin-top:14px;display:block}
+  .tf-h{font-family:"Geist Mono",var(--sans);font-size:11px;font-weight:600;letter-spacing:1.98px;text-transform:uppercase;color:#6f8383;margin-bottom:26px}
+  .tf-links a{display:block;color:#fff;font-size:20px;line-height:1.35;padding:8px 0;transition:opacity .2s;opacity:.94}
+  .tf-links a:hover{opacity:.55}
+  .tf-reach .big{color:#fff;font-size:20px;line-height:1.45}
+  .tf-reach .muted{color:#586a6a;font-size:20px;line-height:1.45;margin-top:4px}
+  .tf-social{display:flex;gap:14px;margin-top:30px}
+  .tf-social a{width:42px;height:42px;border-radius:9px;background:#fff;color:#052424;display:flex;align-items:center;justify-content:center;transition:background .2s,transform .2s}
+  .tf-social a:hover{background:#abff02;transform:translateY(-2px)}
+  .tf-social svg{width:18px;height:18px}
+
+  /* bottom bar */
+  .tf-bot{padding:8px 0 40px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+  .tf-bot .cp{color:rgba(255,255,255,.4);font-size:12px;letter-spacing:.02em}
+  .tf-bot .idx{color:rgba(255,255,255,.4);font-size:12px;transition:color .2s}
+  .tf-bot .idx:hover{color:rgba(255,255,255,.75)}
+  .tf-handle{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);width:64px;height:5px;border-radius:3px;background:rgba(255,255,255,.2);z-index:2}
+</style>
+</head>
+<body>
+
+<div class="rays-bg" aria-hidden="true"><canvas id="raysCanvas"></canvas></div>
+<div class="pt" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+<nav class="bar" data-theme="dark">
+  <div class="navgrid">
+    <a class="pill nav-brand" href="index.html" aria-label="Rive"><svg class="brand-logo" viewBox="0 0 366 72" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <g clip-path="url(#hdr_logo_clip)">
+              <path d="M24.2516 72V23.1773C24.2516 18.9477 26.5127 15.0284 30.1749 12.918L52.8482 -0.169922H35.5395L12.8661 12.918C9.204 15.0373 6.94287 18.9477 6.94287 23.1773V72H24.2516Z" fill="#1a1614"/>
+              <path d="M55.6506 72V23.1773C55.6506 18.9477 57.9117 15.0284 61.5739 12.918L84.2384 -0.169922H66.9296L44.2563 12.918C40.5941 15.0373 38.333 18.9477 38.333 23.1773V72H55.6417H55.6506Z" fill="#1a1614"/>
+              <path d="M87.0402 72V23.1773C87.0402 18.9477 89.3013 15.0284 92.9634 12.918L115.637 -0.169922H98.3281L75.6547 12.918C71.9926 15.0373 69.7314 18.9477 69.7314 23.1773V72H87.0402Z" fill="#1a1614"/>
+              <path d="M143.46 72.2504V0.19043H177.27C185.32 0.19043 191.65 2.17043 196.24 6.13043C200.83 10.0904 203.13 15.3904 203.13 22.0304V23.0904C203.13 27.5404 202.07 31.4104 199.95 34.6904C197.83 37.9704 194.81 40.5004 190.89 42.2704C186.97 44.0404 182.32 44.9204 176.95 44.9204H158.51V72.2604H143.46V72.2504ZM158.51 33.5704H176.1C179.77 33.5704 182.63 32.7204 184.68 31.0304C186.73 29.3304 187.75 26.8304 187.75 23.5104V22.4504C187.75 19.1304 186.65 16.5704 184.47 14.7704C182.28 12.9704 179.06 12.0704 174.83 12.0704H158.51V33.5804V33.5704ZM186.49 72.2504L164.34 41.5204H181.4L204.72 72.2504H186.49Z" fill="#1a1614"/>
+              <path d="M214.68 72.2504V0.19043H229.73V72.2604H214.68V72.2504Z" fill="#1a1614"/>
+              <path d="M259.09 72.2504L236.73 0.19043H252.73L273.5 70.1404H271.91L292.15 0.19043H307.84L285.69 72.2604H259.09V72.2504Z" fill="#1a1614"/>
+              <path d="M314.83 72.2504V0.19043H366.23V12.7004H329.88V28.9204H363.58V41.3204H329.88V59.7604H366.23V72.2704H314.83V72.2504Z" fill="#1a1614"/>
+            </g>
+            <defs><clipPath id="hdr_logo_clip"><rect width="366" height="72" fill="white"/></clipPath></defs>
+          </svg></a>
+    <div class="pill nav-links">
+      <a href="platform.html">Platform</a>
+      <a href="research.html">Solutions</a>
+      <a href="company.html">Company</a>
+    </div>
+    <div class="nav-actions">
+      <div class="pill nav-right">
+        <a class="signin" href="contact.html">Contact us</a>
+        <a class="btn btn-dark" href="book-a-demo.html">Book a demo</a>
+      </div>
+      <button class="pill nav-burger" id="navBurger" aria-label="Open menu" aria-expanded="false" aria-controls="navMenu"><span class="burger-ico"><i></i><i></i><i></i></span></button>
+      <div class="nav-menu" id="navMenu">
+        <a href="platform.html">Platform</a>
+        <a href="research.html">Solutions</a>
+        <a href="company.html">Company</a>
+        <a href="contact.html">Contact us</a>
+      </div>
+    </div>
+  </div>
+</nav>
+<main id="top">
+  <section class="contact-sec">
+    <div class="wrap">
+      <div class="contact-grid">
+        <div class="contact-left">
+          <h1>Let's talk.</h1>
+          <p class="contact-lead">Tell us about your operation and we'll get back to you.</p>
+          <div class="contact-meta">
+            <div class="contact-block"><span class="contact-k">Email</span><a href="mailto:Contact@rive.ai">Contact@rive.ai</a></div>
+            <div class="contact-block"><span class="contact-k">Location</span><address>Rive Labs, Inc.<br>800 West El Camino Real 180<br>Mountain View, CA 94040<br>United States</address></div>
+          </div>
+        </div>
+        <div class="contact-card">
+          <form id="contactForm" novalidate>
+            <div class="frow two">
+              <div class="field"><label>Your name</label><input type="text" name="name" placeholder="Enter your full name" required></div>
+              <div class="field"><label>Work email</label><input type="email" name="email" placeholder="Enter work email" required></div>
+            </div>
+            <div class="frow"><div class="field"><label>Company</label><input type="text" name="company" placeholder="Enter company" required></div></div>
+            <div class="frow"><div class="field"><label>How can we help?</label><textarea name="message" placeholder="Tell us what you're looking to solve" required></textarea></div></div>
+            <button type="submit" class="contact-submit">Send message</button>
+          </form>
+          <div class="contact-done" hidden>
+            <div class="done-ico">&#10003;</div>
+            <h3>Thanks, message sent.</h3>
+            <p>We'll be in touch shortly.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+<footer class="tf" id="company">
+  <canvas class="tf-dots" aria-hidden="true"></canvas>
+  <div class="tf-frame"></div>
+  <div class="tf-inner">
+
+    <!-- CTA band -->
+    <div class="tf-cta" id="demo">
+      <h2 class="reveal">The future of industrial operations<br/>starts today.</h2>
+      <div class="reveal" style="transition-delay:.08s">
+        <a class="tf-take" href="book-a-demo.html"><span>Take control of your operations</span></a>
+      </div>
+    </div>
+
+    <!-- columns -->
+    <div class="tf-grid">
+      <div class="reveal">
+        <div class="tf-logo">
+          <svg viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect width="256" height="256" rx="52" fill="#00A21E"/>
+            <path d="M72.9044 183.032V107.531C72.9044 100.99 76.4011 94.9289 82.0644 91.6654L117.127 71.4258H90.3604L55.2976 91.6654C49.6344 94.9427 46.1377 100.99 46.1377 107.531V183.032H72.9044Z" fill="#F3FCE9"/>
+            <path d="M121.474 183.032V107.531C121.474 100.99 124.971 94.9289 130.634 91.6654L165.669 71.4258H138.902L103.84 91.6654C98.1764 94.9427 94.6797 100.99 94.6797 107.531V183.032H121.46H121.474Z" fill="#F3FCE9"/>
+            <path d="M170.002 183.032V107.531C170.002 100.99 173.499 94.9289 179.162 91.6654L214.225 71.4258H187.458L152.395 91.6654C146.732 94.9427 143.235 100.99 143.235 107.531V183.032H170.002Z" fill="#F3FCE9"/>
+          </svg>
+          RIVE
+        </div>
+        <div class="tf-tag">
+          The industrial decision intelligence platform.
+          <address>
+            Rive Labs, Inc.<br/>
+            Mountain View, CA 94040
+          </address>
+        </div>
+      </div>
+
+      <div class="tf-links reveal" style="transition-delay:.05s">
+        <div class="tf-h">Platform</div>
+        <a href="platform.html">Platform overview</a>
+        <a href="research.html">Solutions</a>
+      </div>
+
+      <div class="tf-links reveal" style="transition-delay:.1s">
+        <div class="tf-h">Company</div>
+        <a href="company.html">About Rive</a>
+        <a href="careers.html">Careers</a>
+        <a href="index.html#cases">Case studies</a>
+        <a href="contact.html">Contact us</a>
+        <a href="book-a-demo.html">Book a demo</a>
+      </div>
+
+      <div class="tf-reach reveal" style="transition-delay:.15s">
+        <div class="tf-h">Reach us</div>
+        <div class="big">Ready for the future of industrial operations?</div>
+        <div class="muted">Book a demo today.</div>
+        <div class="tf-social">
+          <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 1 5 8.5a2.5 2.5 0 0 1-.02-5zM3 9h4v12H3V9zm6 0h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.4c0-1.3-.02-2.96-1.8-2.96-1.8 0-2.08 1.4-2.08 2.86V21H9V9z"/></svg></a>
+          <a href="#" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.2 2H21l-6.5 7.4L22 22h-6.2l-4.9-6.4L5.3 22H2.5l7-8L2 2h6.3l4.4 5.8L18.2 2zm-2.2 18h1.7L8.1 3.8H6.3L16 20z"/></svg></a>
+          <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 12s0-3.2-.4-4.7a2.5 2.5 0 0 0-1.7-1.8C19.3 5 12 5 12 5s-7.3 0-8.9.5A2.5 2.5 0 0 0 1.4 7.3C1 8.8 1 12 1 12s0 3.2.4 4.7a2.5 2.5 0 0 0 1.7 1.8C4.7 19 12 19 12 19s7.3 0 8.9-.5a2.5 2.5 0 0 0 1.7-1.8C23 15.2 23 12 23 12zM9.8 15V9l5.2 3-5.2 3z"/></svg></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- bottom bar -->
+    <div class="tf-bot">
+      <div class="cp">Copyright Rive Labs, Inc. © 2026 All Rights Reserved</div>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/side-rays.js"></script>
+<script>
+// SideRays background
+  (function(){
+    var c = document.getElementById('raysCanvas');
+    var host = document.querySelector('.rays-bg');
+    if(c && host && window.initSideRays){
+      window.initSideRays(c, host, {
+        speed:2.5, rayColor1:'#EAB308', rayColor2:'#96c8ff',
+        intensity:2, spread:2, origin:'top-right', tilt:0,
+        saturation:1.5, blend:0.75, falloff:1.6, opacity:1.0
+      });
+    }
+  })();
+// responsive hamburger menu
+  (function(){
+    const burger = document.getElementById('navBurger');
+    const menu = document.getElementById('navMenu');
+    if(!burger || !menu) return;
+    function setOpen(open){
+      burger.classList.toggle('open', open);
+      menu.classList.toggle('open', open);
+      burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    }
+    burger.addEventListener('click', e => { e.stopPropagation(); setOpen(!menu.classList.contains('open')); });
+    menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setOpen(false)));
+    document.addEventListener('click', e => { if(!menu.contains(e.target) && !burger.contains(e.target)) setOpen(false); });
+    addEventListener('keydown', e => { if(e.key === 'Escape') setOpen(false); });
+    // close if resized back up to desktop
+    addEventListener('resize', () => { if(innerWidth > 900) setOpen(false); });
+  })();
+  (function(){ var pt=document.querySelector('.pt'); if(pt) setTimeout(function(){ pt.style.display='none'; }, 950); })();
+
+  (function(){ var f=document.getElementById('contactForm'); if(!f) return; f.addEventListener('submit', function(e){ e.preventDefault(); if(!f.checkValidity()){ f.reportValidity(); return; } f.style.display='none'; var d=document.querySelector('.contact-done'); if(d) d.hidden=false; }); })();
+// footer: subtle glow that follows the cursor — invisible at rest, gentle ease in/out
+  (function(){
+    const footer = document.querySelector('.tf');
+    const canvas = footer && footer.querySelector('.tf-dots');
+    if(!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const GAP = 30;          // dot spacing
+    const R   = 170;         // bloom radius
+    const EASE = 0.06;       // slower = more refined settle
+    const MAXA = 0.42;       // keep dots faint so they never overpower the text/buttons
+    let W = 0, H = 0, dots = [], running = false, raf = 0;
+    const mouse = { x: -9999, y: -9999, tx: -9999, ty: -9999, active: false };
+
+    function build(){
+      const r = footer.getBoundingClientRect();
+      W = r.width; H = r.height;
+      canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      dots = [];
+      for(let y = GAP/2; y < H; y += GAP)
+        for(let x = GAP/2; x < W; x += GAP) dots.push({ x, y, v: 0 });
+    }
+
+    function ensure(){ if(!running){ running = true; raf = requestAnimationFrame(loop); } }
+
+    footer.addEventListener('pointermove', e => {
+      // no bloom while hovering the CTA button
+      if(e.target.closest && e.target.closest('.tf-take')){ mouse.active = false; ensure(); return; }
+      const r = footer.getBoundingClientRect();
+      mouse.tx = e.clientX - r.left; mouse.ty = e.clientY - r.top;
+      if(!mouse.active){ mouse.x = mouse.tx; mouse.y = mouse.ty; } // no jump on first entry
+      mouse.active = true; ensure();
+    });
+    footer.addEventListener('pointerleave', () => { mouse.active = false; ensure(); });
+
+    function frame(){
+      ctx.clearRect(0, 0, W, H);
+      // eased pointer position (adds to the refined, unhurried feel)
+      mouse.x += (mouse.tx - mouse.x) * 0.14;
+      mouse.y += (mouse.ty - mouse.y) * 0.14;
+      let busy = mouse.active;
+      for(const d of dots){
+        let target = 0;
+        if(mouse.active){
+          const dist = Math.hypot(d.x - mouse.x, d.y - mouse.y);
+          if(dist < R){ const n = 1 - dist / R; target = n * n * (3 - 2 * n); } // smoothstep falloff
+        }
+        d.v += (target - d.v) * EASE;                 // gentle ease in AND out
+        if(d.v > 0.004){
+          busy = true;
+          const e = d.v;
+          const radius = 0.6 + e * 2.6;
+          const alpha  = e * MAXA;
+          ctx.beginPath();
+          ctx.arc(d.x, d.y, radius, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(171,255,2,' + alpha.toFixed(3) + ')';
+          if(e > 0.55){ ctx.shadowColor = 'rgba(171,255,2,0.45)'; ctx.shadowBlur = 7 * e; }
+          else ctx.shadowBlur = 0;
+          ctx.fill();
+        }
+      }
+      ctx.shadowBlur = 0;
+      return busy;
+    }
+
+    function loop(){
+      const busy = frame();
+      if(busy){ raf = requestAnimationFrame(loop); }
+      else { running = false; ctx.clearRect(0, 0, W, H); } // fully settled → nothing drawn
+    }
+
+    build();
+    addEventListener('resize', () => { build(); if(running) frame(); });
+  })();
+</script>
+<script src="assets/nav.js"></script>
+</body>
+</html>

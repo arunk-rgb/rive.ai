@@ -1,0 +1,837 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Book a demo | Rive</title>
+<meta name="description" content="See how Rive turns fragmented industrial data into decisions. Pick a time and book a walkthrough tailored to your operation." />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Crect width='256' height='256' rx='52' fill='%2300A21E'/%3E%3Cpath d='M72.9044 183.032V107.531C72.9044 100.99 76.4011 94.9289 82.0644 91.6654L117.127 71.4258H90.3604L55.2976 91.6654C49.6344 94.9427 46.1377 100.99 46.1377 107.531V183.032H72.9044Z' fill='%23F3FCE9'/%3E%3Cpath d='M121.474 183.032V107.531C121.474 100.99 124.971 94.9289 130.634 91.6654L165.669 71.4258H138.902L103.84 91.6654C98.1764 94.9427 94.6797 100.99 94.6797 107.531V183.032H121.46H121.474Z' fill='%23F3FCE9'/%3E%3Cpath d='M170.002 183.032V107.531C170.002 100.99 173.499 94.9289 179.162 91.6654L214.225 71.4258H187.458L152.395 91.6654C146.732 94.9427 143.235 100.99 143.235 107.531V183.032H170.002Z' fill='%23F3FCE9'/%3E%3C/svg%3E" />
+<style>
+  :root{
+    --bg:#ffffff;--panel:#f6f6f2;--panel-2:#fafaf7;--ink:#1a1614;--muted:#6b6862;--faint:#9a978f;
+    --line:#eceae4;--line-2:#dcdad3;--dark:#211d1a;--dark-hover:#302b26;--teal:#052424;--lime:#abff02;
+    --sans:"Geist",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,"SF Mono","Roboto Mono",Menlo,Consolas,monospace;--radius:999px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:#000;color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  h1,h2,h3{margin:0;font-family:var(--sans);font-weight:600;letter-spacing:-.02em;line-height:1.15}
+
+  nav.bar{position:fixed;top:34px;left:0;right:0;z-index:50;display:flex;justify-content:center;align-items:center;padding:0 24px;pointer-events:none;transition:top .35s cubic-bezier(.4,0,.2,1)}
+  .bar{--nav-pill-bg:rgba(244,244,240,.72);--nav-pill-bd:rgba(255,255,255,.55);--nav-shadow:0 1px 2px rgba(0,0,0,.05),0 10px 30px rgba(0,0,0,.06);--nav-text:#5b5852;--nav-strong:#141210;--nav-hover-bg:rgba(0,0,0,.055);--nav-logo:#141210;--nav-btn-bg:#1b1815;--nav-btn-text:#f6f4f0;--nav-btn-hover:#2c2723}
+  .bar[data-theme="dark"]{--nav-pill-bg:rgba(20,22,28,.42);--nav-pill-bd:rgba(255,255,255,.15);--nav-shadow:0 1px 2px rgba(0,0,0,.22),0 12px 34px rgba(0,0,0,.34);--nav-text:rgba(255,255,255,.72);--nav-strong:#ffffff;--nav-hover-bg:rgba(255,255,255,.13);--nav-logo:#ffffff;--nav-btn-bg:#f6f4f0;--nav-btn-text:#161310;--nav-btn-hover:#ffffff}
+  .bar.scrolled{top:18px}
+  .bar.scrolled .pill{--nav-pill-bg:rgba(249,249,246,.9)}
+  .bar.scrolled[data-theme="dark"] .pill{--nav-pill-bg:rgba(16,18,24,.62)}
+  @media(prefers-reduced-motion:reduce){nav.bar,.pill,.nav-links a,.nav-right .signin,.btn-dark,.nav-brand .brand-logo path{transition:none}}
+  .navgrid{width:100%;max-width:1440px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:16px}
+  .nav-brand{justify-self:start;pointer-events:auto;display:flex;align-items:center;height:52px;padding:0 22px}
+  .nav-brand .brand-logo{height:20px;width:auto;display:block}
+  .nav-brand .brand-logo path{fill:var(--nav-logo);transition:fill .35s ease}
+  .nav-links{justify-self:center;pointer-events:auto;display:flex;align-items:center;height:52px;gap:2px;padding:0 6px}
+  .nav-links a{padding:9px 16px;border-radius:var(--radius);font-size:14px;font-weight:500;letter-spacing:-.006em;color:var(--nav-text);transition:color .25s ease,background .25s ease}
+  .nav-links a:hover{background:var(--nav-hover-bg);color:var(--nav-strong)}
+  .nav-links a[aria-current="page"]{color:var(--nav-strong);background:var(--nav-hover-bg)}
+  .nav-actions{justify-self:end;position:relative;display:flex;align-items:center;gap:10px}
+  .pill{pointer-events:auto;background:var(--nav-pill-bg);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    border:1px solid var(--nav-pill-bd);border-radius:var(--radius);box-shadow:var(--nav-shadow);transition:background .45s ease,border-color .45s ease,box-shadow .45s ease}
+  .nav-main{display:flex;align-items:center;gap:4px;padding:8px 16px 8px 12px}
+  .nav-main .brand{display:flex;align-items:center;padding:4px 6px;margin-right:2px}
+  .nav-main .nav-link{padding:8px 16px;border-radius:var(--radius);font-size:14px;color:var(--muted);transition:.2s}
+  .nav-main .nav-link:hover{background:rgba(0,0,0,.05);color:var(--ink)}
+  .nav-center{justify-self:center;display:flex;align-items:center;gap:10px;padding:14px 26px}
+  .brand{display:flex;align-items:center;gap:10px;font-size:19px;letter-spacing:.01em}
+  .logo{width:22px;height:22px;flex:0 0 auto}
+  .brand-logo{height:21px;width:auto;flex:0 0 auto;display:block}
+  .nav-right{display:flex;align-items:center;height:52px;gap:8px;padding:0 6px}
+  .nav-right .signin{padding:9px 18px;font-size:14px;font-weight:500;letter-spacing:-.006em;color:var(--nav-text);border-radius:var(--radius);transition:color .25s ease,background .25s ease}
+  .nav-right .signin:hover{color:var(--nav-strong);background:var(--nav-hover-bg)}
+  .btn{display:inline-flex;align-items:center;gap:8px;border-radius:var(--radius);font-size:14.5px;font-weight:500;cursor:pointer;border:1px solid transparent;transition:.2s;white-space:nowrap}
+  .btn-dark{background:var(--nav-btn-bg);color:var(--nav-btn-text);font-size:14px;letter-spacing:-.006em;padding:9px 20px;transition:background .3s ease,color .3s ease}
+  .btn-dark:hover{background:var(--nav-btn-hover)}
+  .nav-actions .btn-dark::after{content:"\2192";font-size:13px;line-height:1;display:inline-block;transition:transform .25s ease}
+  .nav-actions .btn-dark:hover::after{transform:translateX(3px)}
+  .btn-ghost{background:transparent;color:var(--ink);padding:14px 22px;position:relative}
+  .btn-ghost .corners{position:absolute;inset:0;border-radius:14px;border:1px dashed var(--line);}
+  .btn-ghost:hover .corners{border-color:var(--faint)}
+
+  /* brand + hamburger group */
+  .nav-brand-group{display:flex;align-items:center;gap:10px;position:relative}
+  .nav-burger{display:none;width:46px;height:46px;padding:0;align-items:center;justify-content:center;cursor:pointer}
+  .burger-ico{position:relative;width:18px;height:12px;display:block}
+  .burger-ico i{position:absolute;left:0;right:0;height:2px;background:var(--nav-logo);border-radius:2px;transition:transform .25s,opacity .2s,top .25s}
+  .burger-ico i:nth-child(1){top:0}
+  .burger-ico i:nth-child(2){top:5px}
+  .burger-ico i:nth-child(3){top:10px}
+  .nav-burger.open .burger-ico i:nth-child(1){top:5px;transform:rotate(45deg)}
+  .nav-burger.open .burger-ico i:nth-child(2){opacity:0}
+  .nav-burger.open .burger-ico i:nth-child(3){top:5px;transform:rotate(-45deg)}
+  /* dropdown menu (responsive only) */
+  .nav-menu{display:none;position:absolute;top:calc(100% + 12px);right:0;min-width:212px;flex-direction:column;gap:2px;padding:10px;
+    background:rgba(242,242,236,.86);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+    border:1px solid rgba(255,255,255,.55);border-radius:20px;box-shadow:0 14px 44px rgba(0,0,0,.14);
+    opacity:0;visibility:hidden;pointer-events:none;transform:translateY(-8px) scale(.98);transform-origin:top right;
+    transition:opacity .22s,transform .22s,visibility .22s;z-index:60}
+  .nav-menu a{padding:12px 16px;border-radius:12px;font-size:15px;color:var(--muted);transition:background .15s,color .15s}
+  .nav-menu a:hover{background:rgba(0,0,0,.06);color:var(--ink)}
+
+  @media(max-width:900px){
+    .nav-links,.nav-right .signin{display:none}
+    .navgrid{grid-template-columns:auto 1fr}
+    .nav-burger{display:flex}
+    .nav-brand-group{grid-column:1;justify-self:start}
+    .nav-center{padding:12px 18px}
+    .nav-right{grid-column:2;justify-self:end}
+    .nav-menu{display:flex}
+    .nav-menu.open{opacity:1;visibility:visible;pointer-events:auto;transform:none}
+  }
+
+  #shaderbg{position:fixed;inset:0;width:100%;height:100%;display:block;z-index:0;pointer-events:none}
+  .pt{position:fixed;inset:0;z-index:500;display:grid;grid-template-columns:repeat(4,1fr);pointer-events:none}
+  .pt i{background:#0b0c0c;will-change:transform;animation:ptUp .55s cubic-bezier(.76,0,.24,1) forwards}
+  .pt i:nth-child(even){animation-name:ptDown}
+  .pt i:nth-child(2){animation-delay:.06s}.pt i:nth-child(3){animation-delay:.12s}.pt i:nth-child(4){animation-delay:.18s}
+  @keyframes ptUp{to{transform:translateY(-101%)}}
+  @keyframes ptDown{to{transform:translateY(101%)}}
+  @media(prefers-reduced-motion:reduce){.pt{display:none}}
+
+  /* shutter reveal: demo lifts away, footer rises from below */
+  .demo{position:relative;z-index:1;min-height:100vh;display:flex;align-items:center;background:transparent;padding:132px 24px 80px}
+  footer.tf{position:relative;z-index:1}
+  .demo-inner{width:100%;max-width:1240px;margin:0 auto;display:grid;grid-template-columns:.72fr 1.28fr;gap:52px;align-items:center}
+  @media(max-width:920px){.demo-inner{grid-template-columns:1fr;gap:32px}}
+  .demo-copy h1{font-size:clamp(40px,5.5vw,76px);line-height:1.02;letter-spacing:-.03em;color:#fff;text-shadow:0 2px 34px rgba(0,0,0,.4)}
+  .demo-copy p{margin-top:22px;font-size:19px;line-height:1.55;color:rgba(255,255,255,.86);text-shadow:0 1px 22px rgba(0,0,0,.35);max-width:34ch}
+  .demo-card{background:#fff;border-radius:24px;padding:clamp(24px,3vw,38px);box-shadow:0 30px 70px rgba(20,40,10,.12),0 2px 6px rgba(0,0,0,.05)}
+  .demo-card h2{font-size:clamp(21px,2.5vw,27px);letter-spacing:-.02em;color:var(--ink)}
+  .demo-card .sub{margin-top:8px;color:var(--muted);font-size:15.5px}
+  .demo-form{margin-top:22px}
+  .frow{margin-top:15px}
+  .frow.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:520px){.frow.two{grid-template-columns:1fr}}
+  .field{display:flex;flex-direction:column}
+  .field label{font-size:13px;font-weight:500;color:var(--ink);margin-bottom:7px}
+  .field .opt{color:var(--faint);font-weight:400}
+  .field input,.field textarea{font-family:var(--sans);font-size:15px;color:var(--ink);background:#fff;border:1px solid var(--line-2);border-radius:12px;padding:13px 15px;width:100%;transition:border-color .2s,box-shadow .2s}
+  .field textarea{resize:vertical;min-height:80px}
+  .field input::placeholder,.field textarea::placeholder{color:#b6b3ac}
+  .field input:focus,.field textarea:focus{outline:none;border-color:#00A21E;box-shadow:0 0 0 3px rgba(0,162,30,.14)}
+  /* custom dropdown (no native select) */
+  .dd{position:relative}
+  .dd-trigger{width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;font-family:var(--sans);font-size:15px;color:var(--ink);background:#fff;border:1px solid var(--line-2);border-radius:12px;padding:13px 15px;cursor:pointer;text-align:left;transition:border-color .2s,box-shadow .2s}
+  .dd-trigger:focus{outline:none;border-color:#00A21E;box-shadow:0 0 0 3px rgba(0,162,30,.14)}
+  .dd.open .dd-trigger{border-color:#00A21E}
+  .dd.err .dd-trigger{border-color:#d9534f;box-shadow:0 0 0 3px rgba(217,83,79,.12)}
+  .dd-value{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .dd-value.placeholder{color:#b6b3ac}
+  .dd-caret{width:8px;height:8px;border-right:1.7px solid var(--muted);border-bottom:1.7px solid var(--muted);transform:rotate(45deg) translateY(-2px);flex:0 0 auto;transition:transform .25s}
+  .dd.open .dd-caret{transform:rotate(-135deg) translateY(-1px)}
+  .dd-panel{position:absolute;top:calc(100% + 6px);left:0;right:0;z-index:30;max-height:236px;overflow-y:auto;list-style:none;margin:0;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 16px 42px rgba(0,0,0,.16);padding:6px;opacity:0;visibility:hidden;transform:translateY(-6px);transition:opacity .18s,transform .18s,visibility .18s;-ms-overflow-style:none;scrollbar-width:thin}
+  .dd.open .dd-panel{opacity:1;visibility:visible;transform:none}
+  .dd-opt{padding:10px 12px;border-radius:8px;font-size:14.5px;color:var(--ink);cursor:pointer}
+  .dd-opt:hover,.dd-opt.hi{background:var(--panel)}
+  .dd-opt.sel{color:#00A21E;font-weight:500}
+  .dd-note{margin-top:8px;font-size:12.5px;color:var(--faint)}
+  .req{margin-top:18px;font-size:13px;color:var(--faint)}
+  .demo-submit{margin-top:14px;width:100%;background:var(--dark);color:#f4f2ee;border:none;border-radius:12px;padding:16px;font-family:var(--sans);font-size:15px;font-weight:600;cursor:pointer;transition:background .2s,transform .2s}
+  .demo-submit:hover{background:var(--dark-hover);transform:translateY(-1px)}
+  .demo-done{text-align:center;padding:34px 10px}
+  .done-ico{width:56px;height:56px;border-radius:50%;background:#00A21E;color:#fff;font-size:26px;display:flex;align-items:center;justify-content:center;margin:0 auto 18px}
+  .demo-done h3{font-size:24px;color:var(--ink)}
+  .demo-done p{margin-top:10px;color:var(--muted);font-size:16px}
+
+  /* ---------- FOOTER (Terminal-style) ---------- */
+  .tf{position:relative;background:#052424;color:#fff;font-family:var(--sans);overflow:hidden}
+  .tf-glow{position:absolute;left:50%;top:0;width:min(760px,70%);height:420px;transform:translateX(-50%);pointer-events:none;z-index:0;
+    background:radial-gradient(ellipse at 50% 0%,rgba(171,255,2,.10),rgba(171,255,2,0) 68%)}
+  .tf-frame{position:absolute;inset:24px;border:1px solid rgba(255,255,255,.07);border-radius:44px;pointer-events:none;z-index:1}
+  .tf-dots{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;display:block}
+  .tf-inner{position:relative;z-index:2;max-width:1440px;margin:0 auto;padding:0 clamp(24px,5vw,80px)}
+
+  /* CTA band */
+  .tf-cta{text-align:center;padding:clamp(78px,12vw,150px) 0 clamp(116px,16vw,208px)}
+  .tf-cta h2{font-family:var(--sans);font-weight:400;font-size:clamp(38px,7vw,70px);line-height:.95;letter-spacing:-.02em;color:#fff;max-width:none;margin:0 auto}
+  .tf-take{position:relative;overflow:hidden;display:inline-block;margin-top:clamp(32px,4vw,52px);background:rgba(255,255,255,.15);color:#fff;
+    font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:1.98px;text-transform:uppercase;
+    padding:15px 40px;border-radius:8px;transition:background .25s,transform .25s,box-shadow .25s;backdrop-filter:blur(4px)}
+  .tf-take span{position:relative;z-index:1}
+  .tf-take::before{content:"";position:absolute;top:0;left:-160%;width:70%;height:100%;z-index:0;
+    background:linear-gradient(100deg,transparent,rgba(255,255,255,.45),transparent);
+    transform:skewX(-18deg);animation:tf-shine 3.8s ease-in-out infinite}
+  @keyframes tf-shine{0%{left:-160%}55%,100%{left:160%}}
+  .tf-take:hover{background:rgba(255,255,255,.28);transform:translateY(-3px);box-shadow:0 14px 34px rgba(0,0,0,.28)}
+  @media(prefers-reduced-motion:reduce){.tf-take::before{animation:none}}
+
+  /* columns */
+  .tf-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1.3fr;gap:44px;padding-bottom:clamp(50px,7vw,88px)}
+  @media(max-width:860px){.tf-grid{grid-template-columns:1fr 1fr;gap:44px 32px}}
+  @media(max-width:520px){.tf-grid{grid-template-columns:1fr;gap:38px}}
+  .tf-logo{display:flex;align-items:center;gap:11px;font-size:27px;font-weight:600;color:#fff;letter-spacing:.01em}
+  .tf-logo svg{width:30px;height:30px;flex:0 0 auto}
+  .tf-tag{margin-top:22px;color:#586a6a;font-size:15px;line-height:1.6;max-width:28ch}
+  .tf-tag address{font-style:normal;margin-top:14px;display:block}
+  .tf-h{font-family:"Geist Mono",var(--sans);font-size:11px;font-weight:600;letter-spacing:1.98px;text-transform:uppercase;color:#6f8383;margin-bottom:26px}
+  .tf-links a{display:block;color:#fff;font-size:20px;line-height:1.35;padding:8px 0;transition:opacity .2s;opacity:.94}
+  .tf-links a:hover{opacity:.55}
+  .tf-reach .big{color:#fff;font-size:20px;line-height:1.45}
+  .tf-reach .muted{color:#586a6a;font-size:20px;line-height:1.45;margin-top:4px}
+  .tf-social{display:flex;gap:14px;margin-top:30px}
+  .tf-social a{width:42px;height:42px;border-radius:9px;background:#fff;color:#052424;display:flex;align-items:center;justify-content:center;transition:background .2s,transform .2s}
+  .tf-social a:hover{background:#abff02;transform:translateY(-2px)}
+  .tf-social svg{width:18px;height:18px}
+
+  /* bottom bar */
+  .tf-bot{padding:8px 0 40px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+  .tf-bot .cp{color:rgba(255,255,255,.4);font-size:12px;letter-spacing:.02em}
+  .tf-bot .idx{color:rgba(255,255,255,.4);font-size:12px;transition:color .2s}
+  .tf-bot .idx:hover{color:rgba(255,255,255,.75)}
+  .tf-handle{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);width:64px;height:5px;border-radius:3px;background:rgba(255,255,255,.2);z-index:2}
+
+</style>
+</head>
+<body>
+<canvas id="shaderbg" aria-hidden="true"></canvas>
+
+<div class="pt" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+<nav class="bar" data-theme="dark">
+  <div class="navgrid">
+    <a class="pill nav-brand" href="index.html" aria-label="Rive"><svg class="brand-logo" viewBox="0 0 366 72" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <g clip-path="url(#hdr_logo_clip)">
+              <path d="M24.2516 72V23.1773C24.2516 18.9477 26.5127 15.0284 30.1749 12.918L52.8482 -0.169922H35.5395L12.8661 12.918C9.204 15.0373 6.94287 18.9477 6.94287 23.1773V72H24.2516Z" fill="#1a1614"/>
+              <path d="M55.6506 72V23.1773C55.6506 18.9477 57.9117 15.0284 61.5739 12.918L84.2384 -0.169922H66.9296L44.2563 12.918C40.5941 15.0373 38.333 18.9477 38.333 23.1773V72H55.6417H55.6506Z" fill="#1a1614"/>
+              <path d="M87.0402 72V23.1773C87.0402 18.9477 89.3013 15.0284 92.9634 12.918L115.637 -0.169922H98.3281L75.6547 12.918C71.9926 15.0373 69.7314 18.9477 69.7314 23.1773V72H87.0402Z" fill="#1a1614"/>
+              <path d="M143.46 72.2504V0.19043H177.27C185.32 0.19043 191.65 2.17043 196.24 6.13043C200.83 10.0904 203.13 15.3904 203.13 22.0304V23.0904C203.13 27.5404 202.07 31.4104 199.95 34.6904C197.83 37.9704 194.81 40.5004 190.89 42.2704C186.97 44.0404 182.32 44.9204 176.95 44.9204H158.51V72.2604H143.46V72.2504ZM158.51 33.5704H176.1C179.77 33.5704 182.63 32.7204 184.68 31.0304C186.73 29.3304 187.75 26.8304 187.75 23.5104V22.4504C187.75 19.1304 186.65 16.5704 184.47 14.7704C182.28 12.9704 179.06 12.0704 174.83 12.0704H158.51V33.5804V33.5704ZM186.49 72.2504L164.34 41.5204H181.4L204.72 72.2504H186.49Z" fill="#1a1614"/>
+              <path d="M214.68 72.2504V0.19043H229.73V72.2604H214.68V72.2504Z" fill="#1a1614"/>
+              <path d="M259.09 72.2504L236.73 0.19043H252.73L273.5 70.1404H271.91L292.15 0.19043H307.84L285.69 72.2604H259.09V72.2504Z" fill="#1a1614"/>
+              <path d="M314.83 72.2504V0.19043H366.23V12.7004H329.88V28.9204H363.58V41.3204H329.88V59.7604H366.23V72.2704H314.83V72.2504Z" fill="#1a1614"/>
+            </g>
+            <defs><clipPath id="hdr_logo_clip"><rect width="366" height="72" fill="white"/></clipPath></defs>
+          </svg></a>
+    <div class="pill nav-links">
+      <a href="platform.html">Platform</a>
+      <a href="research.html">Solutions</a>
+      <a href="company.html">Company</a>
+    </div>
+    <div class="nav-actions">
+      <div class="pill nav-right">
+        <a class="signin" href="contact.html">Contact us</a>
+        <a class="btn btn-dark" href="book-a-demo.html">Book a demo</a>
+      </div>
+      <button class="pill nav-burger" id="navBurger" aria-label="Open menu" aria-expanded="false" aria-controls="navMenu"><span class="burger-ico"><i></i><i></i><i></i></span></button>
+      <div class="nav-menu" id="navMenu">
+        <a href="platform.html">Platform</a>
+        <a href="research.html">Solutions</a>
+        <a href="company.html">Company</a>
+        <a href="contact.html">Contact us</a>
+      </div>
+    </div>
+  </div>
+</nav>
+<section class="demo" id="book">
+  <div class="demo-inner">
+    <div class="demo-copy">
+      <h1>Book a demo</h1>
+      <p>See how Rive turns fragmented industrial data into decisions your teams can act on. Pick a time that works and we'll walk you through it.</p>
+    </div>
+    <div class="demo-card">
+      <h2>See if Rive fits your operation</h2>
+      <p class="sub">Tell us about your operation and choose a time. We'll confirm by email.</p>
+      <form class="demo-form" id="demoForm" novalidate>
+        <div class="frow two">
+          <div class="field"><label>Your name</label><input type="text" name="name" placeholder="Enter your full name" required></div>
+          <div class="field"><label>Work email</label><input type="email" name="email" placeholder="Enter work email" required></div>
+        </div>
+        <div class="frow two">
+          <div class="field"><label>Company</label><input type="text" name="company" placeholder="Enter company" required></div>
+          <div class="field"><label>Phone <span class="opt">(optional)</span></label><input type="tel" name="phone" placeholder="Enter phone number"></div>
+        </div>
+        <div class="frow">
+          <div class="field"><label>Country</label><div class="dd" id="dd-country" data-required="1"><button type="button" class="dd-trigger" aria-haspopup="listbox" aria-expanded="false"><span class="dd-value placeholder">Select country</span><span class="dd-caret"></span></button><ul class="dd-panel" role="listbox"><li class="dd-opt" role="option" data-value="United States" data-tz="Eastern Time (ET)">United States</li><li class="dd-opt" role="option" data-value="Canada" data-tz="Eastern Time (ET)">Canada</li><li class="dd-opt" role="option" data-value="United Kingdom" data-tz="GMT / BST (London)">United Kingdom</li><li class="dd-opt" role="option" data-value="Ireland" data-tz="GMT / IST (Dublin)">Ireland</li><li class="dd-opt" role="option" data-value="Germany" data-tz="CET (Berlin)">Germany</li><li class="dd-opt" role="option" data-value="France" data-tz="CET (Paris)">France</li><li class="dd-opt" role="option" data-value="Netherlands" data-tz="CET (Amsterdam)">Netherlands</li><li class="dd-opt" role="option" data-value="Spain" data-tz="CET (Madrid)">Spain</li><li class="dd-opt" role="option" data-value="Italy" data-tz="CET (Rome)">Italy</li><li class="dd-opt" role="option" data-value="Sweden" data-tz="CET (Stockholm)">Sweden</li><li class="dd-opt" role="option" data-value="Norway" data-tz="CET (Oslo)">Norway</li><li class="dd-opt" role="option" data-value="United Arab Emirates" data-tz="GST (Dubai)">United Arab Emirates</li><li class="dd-opt" role="option" data-value="Saudi Arabia" data-tz="AST (Riyadh)">Saudi Arabia</li><li class="dd-opt" role="option" data-value="Qatar" data-tz="AST (Doha)">Qatar</li><li class="dd-opt" role="option" data-value="India" data-tz="IST (New Delhi)">India</li><li class="dd-opt" role="option" data-value="Singapore" data-tz="SGT (Singapore)">Singapore</li><li class="dd-opt" role="option" data-value="Japan" data-tz="JST (Tokyo)">Japan</li><li class="dd-opt" role="option" data-value="Australia" data-tz="AEST (Sydney)">Australia</li><li class="dd-opt" role="option" data-value="Brazil" data-tz="BRT (Sao Paulo)">Brazil</li><li class="dd-opt" role="option" data-value="Mexico" data-tz="CT (Mexico City)">Mexico</li><li class="dd-opt" role="option" data-value="South Africa" data-tz="SAST (Johannesburg)">South Africa</li><li class="dd-opt" role="option" data-value="Nigeria" data-tz="WAT (Lagos)">Nigeria</li><li class="dd-opt" role="option" data-value="Other" data-tz="Other">Other</li></ul><input type="hidden" name="country"></div>
+            <div class="dd-note" id="tzNote">Select your country to sync the time zone.</div></div>
+        </div>
+        <div class="frow two">
+          <div class="field"><label>Preferred date</label><div class="dd" id="dd-date" data-required="1"><button type="button" class="dd-trigger" aria-haspopup="listbox" aria-expanded="false"><span class="dd-value placeholder">Select a date</span><span class="dd-caret"></span></button><ul class="dd-panel" role="listbox"></ul><input type="hidden" name="date"></div></div>
+          <div class="field"><label>Preferred time</label><div class="dd" id="dd-time" data-required="1"><button type="button" class="dd-trigger" aria-haspopup="listbox" aria-expanded="false"><span class="dd-value placeholder">Select a time</span><span class="dd-caret"></span></button><ul class="dd-panel" role="listbox"><li class="dd-opt" role="option" data-value="9:00 AM">9:00 AM</li><li class="dd-opt" role="option" data-value="9:30 AM">9:30 AM</li><li class="dd-opt" role="option" data-value="10:00 AM">10:00 AM</li><li class="dd-opt" role="option" data-value="10:30 AM">10:30 AM</li><li class="dd-opt" role="option" data-value="11:00 AM">11:00 AM</li><li class="dd-opt" role="option" data-value="11:30 AM">11:30 AM</li><li class="dd-opt" role="option" data-value="12:00 PM">12:00 PM</li><li class="dd-opt" role="option" data-value="1:00 PM">1:00 PM</li><li class="dd-opt" role="option" data-value="1:30 PM">1:30 PM</li><li class="dd-opt" role="option" data-value="2:00 PM">2:00 PM</li><li class="dd-opt" role="option" data-value="2:30 PM">2:30 PM</li><li class="dd-opt" role="option" data-value="3:00 PM">3:00 PM</li><li class="dd-opt" role="option" data-value="3:30 PM">3:30 PM</li><li class="dd-opt" role="option" data-value="4:00 PM">4:00 PM</li><li class="dd-opt" role="option" data-value="4:30 PM">4:30 PM</li><li class="dd-opt" role="option" data-value="5:00 PM">5:00 PM</li></ul><input type="hidden" name="time"></div></div>
+        </div>
+        <div class="frow">
+          <div class="field"><label>What would you like to see? <span class="opt">(optional)</span></label>
+            <textarea name="message" placeholder="Tell us what you're looking to solve"></textarea></div>
+        </div>
+        <button type="submit" class="demo-submit">Book a demo</button>
+      </form>
+      <div class="demo-done" hidden>
+        <div class="done-ico">&#10003;</div>
+        <h3>Thanks, you're in.</h3>
+        <p>We'll confirm your Rive walkthrough by email shortly.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<footer class="tf" id="company">
+  <canvas class="tf-dots" aria-hidden="true"></canvas>
+  <div class="tf-frame"></div>
+  <div class="tf-inner">
+
+    <!-- CTA band -->
+    <div class="tf-cta" id="demo">
+      <h2 class="reveal">The future of industrial operations<br/>starts today.</h2>
+      <div class="reveal" style="transition-delay:.08s">
+        <a class="tf-take" href="#book"><span>Take control of your operations</span></a>
+      </div>
+    </div>
+
+    <!-- columns -->
+    <div class="tf-grid">
+      <div class="reveal">
+        <div class="tf-logo">
+          <svg viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect width="256" height="256" rx="52" fill="#00A21E"/>
+            <path d="M72.9044 183.032V107.531C72.9044 100.99 76.4011 94.9289 82.0644 91.6654L117.127 71.4258H90.3604L55.2976 91.6654C49.6344 94.9427 46.1377 100.99 46.1377 107.531V183.032H72.9044Z" fill="#F3FCE9"/>
+            <path d="M121.474 183.032V107.531C121.474 100.99 124.971 94.9289 130.634 91.6654L165.669 71.4258H138.902L103.84 91.6654C98.1764 94.9427 94.6797 100.99 94.6797 107.531V183.032H121.46H121.474Z" fill="#F3FCE9"/>
+            <path d="M170.002 183.032V107.531C170.002 100.99 173.499 94.9289 179.162 91.6654L214.225 71.4258H187.458L152.395 91.6654C146.732 94.9427 143.235 100.99 143.235 107.531V183.032H170.002Z" fill="#F3FCE9"/>
+          </svg>
+          RIVE
+        </div>
+        <div class="tf-tag">
+          The industrial decision intelligence platform.
+          <address>
+            Rive Labs, Inc.<br/>
+            Mountain View, CA 94040
+          </address>
+        </div>
+      </div>
+
+      <div class="tf-links reveal" style="transition-delay:.05s">
+        <div class="tf-h">Platform</div>
+        <a href="platform.html">Platform overview</a>
+        <a href="research.html">Solutions</a>
+      </div>
+
+      <div class="tf-links reveal" style="transition-delay:.1s">
+        <div class="tf-h">Company</div>
+        <a href="company.html">About Rive</a>
+        <a href="careers.html">Careers</a>
+        <a href="index.html#cases">Case studies</a>
+        <a href="contact.html">Contact us</a>
+        <a href="book-a-demo.html">Book a demo</a>
+      </div>
+
+      <div class="tf-reach reveal" style="transition-delay:.15s">
+        <div class="tf-h">Reach us</div>
+        <div class="big">Ready for the future of industrial operations?</div>
+        <div class="muted">Book a demo today.</div>
+        <div class="tf-social">
+          <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 1 5 8.5a2.5 2.5 0 0 1-.02-5zM3 9h4v12H3V9zm6 0h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.4c0-1.3-.02-2.96-1.8-2.96-1.8 0-2.08 1.4-2.08 2.86V21H9V9z"/></svg></a>
+          <a href="#" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.2 2H21l-6.5 7.4L22 22h-6.2l-4.9-6.4L5.3 22H2.5l7-8L2 2h6.3l4.4 5.8L18.2 2zm-2.2 18h1.7L8.1 3.8H6.3L16 20z"/></svg></a>
+          <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 12s0-3.2-.4-4.7a2.5 2.5 0 0 0-1.7-1.8C19.3 5 12 5 12 5s-7.3 0-8.9.5A2.5 2.5 0 0 0 1.4 7.3C1 8.8 1 12 1 12s0 3.2.4 4.7a2.5 2.5 0 0 0 1.7 1.8C4.7 19 12 19 12 19s7.3 0 8.9-.5a2.5 2.5 0 0 0 1.7-1.8C23 15.2 23 12 23 12zM9.8 15V9l5.2 3-5.2 3z"/></svg></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- bottom bar -->
+    <div class="tf-bot">
+      <div class="cp">Copyright Rive Labs, Inc. © 2026 All Rights Reserved</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // responsive hamburger menu
+  (function(){
+    const burger = document.getElementById('navBurger');
+    const menu = document.getElementById('navMenu');
+    if(!burger || !menu) return;
+    function setOpen(open){
+      burger.classList.toggle('open', open);
+      menu.classList.toggle('open', open);
+      burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    }
+    burger.addEventListener('click', e => { e.stopPropagation(); setOpen(!menu.classList.contains('open')); });
+    menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setOpen(false)));
+    document.addEventListener('click', e => { if(!menu.contains(e.target) && !burger.contains(e.target)) setOpen(false); });
+    addEventListener('keydown', e => { if(e.key === 'Escape') setOpen(false); });
+    // close if resized back up to desktop
+    addEventListener('resize', () => { if(innerWidth > 900) setOpen(false); });
+  })();
+
+  // scheduling + custom dropdowns (no native components)
+  (function(){
+    const form=document.getElementById('demoForm');
+    // generate the next 10 weekday date options
+    const dp=document.querySelector('#dd-date .dd-panel');
+    if(dp){
+      const dows=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+      const mons=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      const d=new Date(); let n=0;
+      while(n<10){ d.setDate(d.getDate()+1); const w=d.getDay(); if(w===0||w===6) continue;
+        const lbl=dows[w]+', '+mons[d.getMonth()]+' '+d.getDate();
+        const li=document.createElement('li'); li.className='dd-opt'; li.setAttribute('role','option'); li.dataset.value=lbl; li.textContent=lbl; dp.appendChild(li); n++; }
+    }
+    const dds=[...document.querySelectorAll('.dd')];
+    function closeAll(ex){ dds.forEach(function(d){ if(d!==ex){ d.classList.remove('open'); const t=d.querySelector('.dd-trigger'); if(t) t.setAttribute('aria-expanded','false'); } }); }
+    dds.forEach(function(dd){
+      const trigger=dd.querySelector('.dd-trigger'), val=dd.querySelector('.dd-value'), hidden=dd.querySelector('input[type=hidden]');
+      trigger.addEventListener('click', function(e){ e.stopPropagation(); const open=dd.classList.contains('open'); closeAll(dd); dd.classList.toggle('open', !open); trigger.setAttribute('aria-expanded', String(!open)); });
+      dd.querySelectorAll('.dd-opt').forEach(function(o){
+        o.addEventListener('click', function(){
+          val.textContent=o.textContent; val.classList.remove('placeholder');
+          if(hidden) hidden.value=o.dataset.value||o.textContent;
+          dd.querySelectorAll('.dd-opt').forEach(function(x){x.classList.remove('sel');}); o.classList.add('sel');
+          dd.classList.remove('open','err'); trigger.setAttribute('aria-expanded','false');
+          if(dd.id==='dd-country'){ const note=document.getElementById('tzNote'); if(note) note.textContent='Call times shown in '+(o.dataset.tz||'your time zone')+'.'; }
+        });
+      });
+    });
+    document.addEventListener('click', function(){ closeAll(); });
+    addEventListener('keydown', function(e){ if(e.key==='Escape') closeAll(); });
+    if(form){
+      form.addEventListener('submit', function(e){
+        e.preventDefault();
+        let ok=form.checkValidity();
+        dds.forEach(function(dd){ if(dd.hasAttribute('data-required')){ const h=dd.querySelector('input[type=hidden]'); if(!h.value){ ok=false; dd.classList.add('err'); } } });
+        if(!ok){ if(!form.checkValidity()) form.reportValidity(); return; }
+        form.style.display='none'; const done=document.querySelector('.demo-done'); if(done) done.hidden=false;
+      });
+    }
+  })();
+
+  (function(){ var pt=document.querySelector('.pt'); if(pt) setTimeout(function(){ pt.style.display='none'; }, 950); })();
+
+  // footer: subtle glow that follows the cursor — invisible at rest, gentle ease in/out
+  (function(){
+    const footer = document.querySelector('.tf');
+    const canvas = footer && footer.querySelector('.tf-dots');
+    if(!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const GAP = 30;          // dot spacing
+    const R   = 170;         // bloom radius
+    const EASE = 0.06;       // slower = more refined settle
+    const MAXA = 0.42;       // keep dots faint so they never overpower the text/buttons
+    let W = 0, H = 0, dots = [], running = false, raf = 0;
+    const mouse = { x: -9999, y: -9999, tx: -9999, ty: -9999, active: false };
+
+    function build(){
+      const r = footer.getBoundingClientRect();
+      W = r.width; H = r.height;
+      canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      dots = [];
+      for(let y = GAP/2; y < H; y += GAP)
+        for(let x = GAP/2; x < W; x += GAP) dots.push({ x, y, v: 0 });
+    }
+
+    function ensure(){ if(!running){ running = true; raf = requestAnimationFrame(loop); } }
+
+    footer.addEventListener('pointermove', e => {
+      // no bloom while hovering the CTA button
+      if(e.target.closest && e.target.closest('.tf-take')){ mouse.active = false; ensure(); return; }
+      const r = footer.getBoundingClientRect();
+      mouse.tx = e.clientX - r.left; mouse.ty = e.clientY - r.top;
+      if(!mouse.active){ mouse.x = mouse.tx; mouse.y = mouse.ty; } // no jump on first entry
+      mouse.active = true; ensure();
+    });
+    footer.addEventListener('pointerleave', () => { mouse.active = false; ensure(); });
+
+    function frame(){
+      ctx.clearRect(0, 0, W, H);
+      // eased pointer position (adds to the refined, unhurried feel)
+      mouse.x += (mouse.tx - mouse.x) * 0.14;
+      mouse.y += (mouse.ty - mouse.y) * 0.14;
+      let busy = mouse.active;
+      for(const d of dots){
+        let target = 0;
+        if(mouse.active){
+          const dist = Math.hypot(d.x - mouse.x, d.y - mouse.y);
+          if(dist < R){ const n = 1 - dist / R; target = n * n * (3 - 2 * n); } // smoothstep falloff
+        }
+        d.v += (target - d.v) * EASE;                 // gentle ease in AND out
+        if(d.v > 0.004){
+          busy = true;
+          const e = d.v;
+          const radius = 0.6 + e * 2.6;
+          const alpha  = e * MAXA;
+          ctx.beginPath();
+          ctx.arc(d.x, d.y, radius, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(171,255,2,' + alpha.toFixed(3) + ')';
+          if(e > 0.55){ ctx.shadowColor = 'rgba(171,255,2,0.45)'; ctx.shadowBlur = 7 * e; }
+          else ctx.shadowBlur = 0;
+          ctx.fill();
+        }
+      }
+      ctx.shadowBlur = 0;
+      return busy;
+    }
+
+    function loop(){
+      const busy = frame();
+      if(busy){ raf = requestAnimationFrame(loop); }
+      else { running = false; ctx.clearRect(0, 0, W, H); } // fully settled → nothing drawn
+    }
+
+    build();
+    addEventListener('resize', () => { build(); if(running) frame(); });
+  })();
+</script>
+
+<script id="rive-vert" type="x-shader/x-vertex">
+attribute vec2 a_pos;
+void main(){ gl_Position = vec4(a_pos, 0.0, 1.0); }
+</script>
+<script id="rive-frag" type="x-shader/x-fragment">
+#ifdef GL_FRAGMENT_PRECISION_HIGH
+precision highp float;
+#else
+precision mediump float;
+#endif
+
+uniform vec3 u_colors[8];
+
+uniform vec4 u_scene;
+uniform vec4 u_shape;
+uniform vec4 u_surface;
+uniform vec4 u_finish;
+uniform vec4 u_transform;
+uniform vec4 u_space;
+uniform vec4 u_cursor;
+
+#define u_resolution      u_scene.xy
+#define u_time            u_scene.z
+#define u_colorCount      u_scene.w
+
+#define u_scale           u_shape.x
+#define u_intensity       u_shape.y
+#define u_detail          u_surface.x
+#define u_contrast        u_surface.y
+#define u_brightness      u_surface.z
+#define u_saturation      u_surface.w
+
+#define u_hue             u_finish.x
+#define u_vignette        u_finish.y
+#define u_blur            u_finish.z
+#define u_grain           u_finish.w
+
+#ifdef GL_FRAGMENT_PRECISION_HIGH
+#define u_seed            u_transform.x
+#else
+#define u_seed            mod(u_transform.x, 31.0)
+#endif
+
+#define u_rotate          u_transform.y
+#define u_drift           u_transform.z
+#define u_oklab           u_transform.w
+
+#define u_offset          u_space.xy
+#define u_mouse           u_space.zw
+
+#define u_cursorPresence  u_cursor.x
+#define u_cursorEffect    u_cursor.y
+#define u_cursorStrength  u_cursor.z
+#define u_cursorRadius    u_cursor.w
+
+float hash21(vec2 p) {
+    p = fract(p * vec2(234.34, 435.345));
+    p += dot(p, p + 34.23);
+    return fract(p.x * p.y);
+}
+
+float hash13(vec3 p) {
+    p = fract(p * 0.1031);
+    p += dot(p, p.yzx + 33.33);
+    return fract((p.x + p.y) * p.z);
+}
+
+vec2 hash22(vec2 p) {
+    float n = sin(dot(p, vec2(41.0, 289.0)));
+    return fract(vec2(15731.743, 7892.321) * n);
+}
+
+float noise(vec2 p) {
+    vec2 i = floor(p);
+    vec2 f = fract(p);
+    vec2 u = f * f * (3.0 - 2.0 * f);
+    return mix(
+        mix(hash21(i), hash21(i + vec2(1.0, 0.0)), u.x),
+        mix(hash21(i + vec2(0.0, 1.0)),
+            hash21(i + vec2(1.0, 1.0)), u.x),
+        u.y
+    );
+}
+
+float fbm(vec2 p) {
+    float value = 0.0;
+    float amplitude = 0.5;
+    for (int i = 0; i < 5; i++) {
+        value += amplitude * noise(p);
+        p = p * 2.03 + vec2(17.0, 9.2);
+        amplitude *= 0.5;
+    }
+    return value;
+}
+
+vec3 srgbToLinear(vec3 c) {
+    return mix(c / 12.92, pow((c + 0.055) / 1.055, vec3(2.4)), step(0.04045, c));
+}
+
+vec3 linearToSrgb(vec3 c) {
+    return mix(c * 12.92, 1.055 * pow(max(c, vec3(0.0)), vec3(1.0 / 2.4)) - 0.055, step(0.0031308, c));
+}
+
+vec3 linToOklab(vec3 c) {
+    float l = 0.4122214708 * c.r + 0.5363325363 * c.g + 0.0514459929 * c.b;
+    float m = 0.2119034982 * c.r + 0.6806995451 * c.g + 0.1073969566 * c.b;
+    float s = 0.0883024619 * c.r + 0.2817188376 * c.g + 0.6299787005 * c.b;
+    l = pow(max(l, 0.0), 1.0 / 3.0);
+    m = pow(max(m, 0.0), 1.0 / 3.0);
+    s = pow(max(s, 0.0), 1.0 / 3.0);
+    return vec3(
+        0.2104542553 * l + 0.7936177850 * m - 0.0040720468 * s,
+        1.9779984951 * l - 2.4285922050 * m + 0.4505937090 * s,
+        0.0259040371 * l + 0.7827717662 * m - 0.8086757662 * s
+    );
+}
+
+vec3 oklabToLin(vec3 c) {
+    float l = c.x + 0.3963377774 * c.y + 0.2158037573 * c.z;
+    float m = c.x - 0.1055613458 * c.y - 0.0638541728 * c.z;
+    float s = c.x - 0.0894841775 * c.y - 1.2914855480 * c.z;
+    l = l * l * l;
+    m = m * m * m;
+    s = s * s * s;
+    return vec3(
+        4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s,
+        -1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s,
+        -0.0041960863 * l - 0.7034186147 * m + 1.7076147010 * s
+    );
+}
+
+vec3 mixColour(vec3 a, vec3 b, float t) {
+    if (u_oklab > 0.5) {
+        vec3 la = linToOklab(srgbToLinear(a));
+        vec3 lb = linToOklab(srgbToLinear(b));
+        return clamp(linearToSrgb(oklabToLin(mix(la, lb, t))), 0.0, 1.0);
+    }
+    return mix(a, b, t);
+}
+
+vec3 palette(float x) {
+    x = clamp(x, 0.0, 1.0);
+    vec3 c0 = vec3(0.002, 0.004, 0.018);
+    vec3 c1 = vec3(0.015, 0.045, 0.180);
+    vec3 c2 = vec3(0.020, 0.240, 0.700);
+    vec3 c3 = vec3(0.000, 0.820, 0.920);
+    vec3 c4 = vec3(0.820, 0.940, 1.000);
+    if (x < 0.25)
+        return mix(c0, c1, smoothstep(0.0, 0.25, x));
+    if (x < 0.55)
+        return mix(c1, c2, smoothstep(0.25, 0.55, x));
+    if (x < 0.78)
+        return mix(c2, c3, smoothstep(0.55, 0.78, x));
+    return mix(c3, c4, smoothstep(0.78, 1.0, x));
+}
+
+float sphereMask(vec2 p, vec2 center, float radius) {
+    float d = length(p - center);
+    return 1.0 - smoothstep(radius * 0.70, radius, d);
+}
+
+float sphereEdge(vec2 p, vec2 center, float radius) {
+    float d = length(p - center);
+    float inner = smoothstep(radius * 0.50, radius * 0.86, d);
+    float outer = 1.0 - smoothstep(radius * 0.86, radius * 1.08, d);
+    return inner * outer;
+}
+
+float particles(vec2 p, float t) {
+    float total = 0.0;
+    for (int i = 0; i < 3; i++) {
+        float scale = 85.0 + float(i) * 48.0;
+        vec2 grid = p * scale;
+        vec2 cell = floor(grid);
+        vec2 local = fract(grid) - 0.5;
+        float random = hash21(cell + float(i) * 17.31);
+        float particlePresence = smoothstep(0.72, 0.97, random);
+        vec2 offset = vec2(sin(t * 0.35 + random * 6.28), cos(t * 0.27 + random * 6.28)) * 0.16;
+        float distanceToParticle = length(local - offset * 0.12);
+        float particle = 1.0 - smoothstep(0.015, 0.075, distanceToParticle);
+        total += particle * particlePresence * (0.55 - float(i) * 0.13);
+    }
+    return clamp(total, 0.0, 1.0);
+}
+
+float atmosphere(vec2 p, float t) {
+    vec2 q = p;
+    q += vec2(fbm(q * 1.4 + t * 0.015), fbm(q * 1.4 - t * 0.012)) * 0.30;
+    float a = fbm(q * 2.2 + t * 0.018);
+    float b = fbm(q * 5.5 - vec2(t * 0.025, -t * 0.018));
+    return mix(a, b, 0.32);
+}
+
+vec3 shade(vec2 uv, vec2 p, float t) {
+    vec2 sphereCenter = vec2(0.17, 0.02);
+    float sphereRadius = 0.78;
+    float distanceFromCenter = length(p - sphereCenter);
+    float sphere = sphereMask(p, sphereCenter, sphereRadius);
+    float edge = sphereEdge(p, sphereCenter, sphereRadius);
+    vec2 sphereP = (p - sphereCenter) / sphereRadius;
+    float volumeNoise = atmosphere(sphereP * 1.8, t);
+    float lightDirection = dot(normalize(vec2(0.55, 0.75)), normalize(sphereP + vec2(0.001)));
+    lightDirection = smoothstep(-0.25, 0.95, lightDirection);
+    float particleField = particles(sphereP, t);
+    particleField *= sphere;
+    float mist = fbm(sphereP * 4.0 + vec2(t * 0.012, -t * 0.009));
+    mist *= sphere;
+    float outerParticles = particles((p - sphereCenter) * 1.08, t);
+    float outerFade = 1.0 - smoothstep(sphereRadius * 0.72, sphereRadius * 1.20, distanceFromCenter);
+    outerParticles *= outerFade;
+    float brightness = sphere * (volumeNoise * 0.46 + mist * 0.20 + particleField * 0.85);
+    brightness += edge * 0.50;
+    brightness += outerParticles * 0.42;
+    brightness *= 0.55 + lightDirection * 0.75;
+    float colorValue = clamp(brightness, 0.0, 1.0);
+    vec3 col = palette(colorValue);
+    col += vec3(0.00, 0.16, 0.25) * sphere * mist * 0.55;
+    col += vec3(0.10, 0.30, 0.08) * edge * 0.35;
+    float violet = smoothstep(0.20, 0.90, sphereP.y) * smoothstep(0.90, 0.15, sphereP.x);
+    col += vec3(0.10, 0.045, 0.16) * violet * sphere * 0.20;
+    col += vec3(0.65, 0.90, 1.0) * particleField * 0.38;
+    float haze = atmosphere(p * 0.9, t);
+    float hazeFalloff = 1.0 - smoothstep(sphereRadius * 0.80, sphereRadius * 1.75, distanceFromCenter);
+    col += vec3(0.015, 0.045, 0.12) * haze * hazeFalloff * 0.28;
+    return col;
+}
+
+vec3 hueRotate(vec3 col, float a) {
+    const mat3 toYIQ = mat3(0.299, 0.596, 0.211, 0.587, -0.274, -0.523, 0.114, -0.322, 0.312);
+    const mat3 toRGB = mat3(1.0, 1.0, 1.0, 0.956, -0.272, -1.106, 0.621, -0.647, 1.703);
+    vec3 yiq = toYIQ * col;
+    float ca = cos(a);
+    float sa = sin(a);
+    yiq = vec3(yiq.x, yiq.y * ca - yiq.z * sa, yiq.y * sa + yiq.z * ca);
+    return toRGB * yiq;
+}
+
+void main() {
+    vec2 uv = gl_FragCoord.xy / u_resolution.xy;
+    vec2 screenUv = uv;
+    vec2 p = (gl_FragCoord.xy - 0.5 * u_resolution.xy) / min(u_resolution.x, u_resolution.y);
+    float cursorMask = 0.0;
+    if (u_cursorPresence > 0.001) {
+        vec2 cursor = (0.5 * u_mouse * u_resolution.xy) / min(u_resolution.x, u_resolution.y);
+        vec2 cursorDelta = p - cursor;
+        float cursorDistance = length(cursorDelta);
+        vec2 cursorDirection = cursorDelta / max(cursorDistance, 0.0001);
+        cursorMask = u_cursorPresence * (1.0 - smoothstep(0.0, u_cursorRadius, cursorDistance));
+        if (u_cursorEffect < 1.5) {
+            p -= cursorDirection * cursorMask * u_cursorStrength * 0.34;
+        } else if (u_cursorEffect < 2.5) {
+            float angle = cursorMask * u_cursorStrength * 0.65;
+            float c = cos(angle);
+            float s = sin(angle);
+            p = cursor + mat2(c, -s, s, c) * cursorDelta;
+        } else {
+            float ripple = sin(cursorDistance * 15.0 - u_time * 3.0);
+            p -= cursorDirection * ripple * cursorMask * u_cursorStrength * 0.08;
+        }
+    }
+    p *= u_scale;
+    if (abs(u_rotate) > 0.0001) {
+        float cr = cos(u_rotate);
+        float sr = sin(u_rotate);
+        p = mat2(cr, -sr, sr, cr) * p;
+    }
+    p += u_offset;
+    p += u_drift * vec2(sin(u_time * 0.21), cos(u_time * 0.17));
+    vec2 warpNoise = vec2(fbm(p * u_detail + u_seed), fbm(p * u_detail + vec2(5.2, 1.3)));
+    p += (warpNoise - 0.5) * 0.07;
+    vec3 col = shade(uv, p, u_time);
+    col = (col - 0.5) * u_contrast + 0.5;
+    float luma = dot(col, vec3(0.299, 0.587, 0.114));
+    col = mix(vec3(luma), col, u_saturation);
+    if (abs(u_hue) > 0.0001)
+        col = hueRotate(col, u_hue);
+    col += u_brightness;
+    float vignetteDistance = length(screenUv - 0.5) * 1.41421356;
+    col *= 1.0 - u_vignette * smoothstep(0.35, 1.0, vignetteDistance);
+    if (u_cursorPresence > 0.001 && u_cursorEffect > 3.5) {
+        col += (vec3(0.10, 0.20, 0.25) + col * 0.10) * cursorMask * u_cursorStrength;
+    }
+    if (u_grain > 0.0001) {
+        float grain = hash21(gl_FragCoord.xy + vec2(u_seed * 17.0, u_seed * 31.0));
+        col += (grain - 0.5) * u_grain;
+    }
+    gl_FragColor = vec4(clamp(col, 0.0, 1.0), 1.0);
+}
+</script>
+<script>
+  // "Smoke" flow shader background (WebGL1, no libraries)
+  (function(){
+    var canvas=document.getElementById('shaderbg');
+    if(!canvas) return;
+    var gl=canvas.getContext('webgl',{antialias:false,alpha:false})||canvas.getContext('experimental-webgl');
+    if(!gl){ document.body.style.background='#000814'; return; }
+    function compile(type,src){ var sh=gl.createShader(type); gl.shaderSource(sh,src); gl.compileShader(sh);
+      if(!gl.getShaderParameter(sh,gl.COMPILE_STATUS)){ console.error(gl.getShaderInfoLog(sh)); return null; } return sh; }
+    var vs=compile(gl.VERTEX_SHADER,document.getElementById('rive-vert').textContent);
+    var fs=compile(gl.FRAGMENT_SHADER,document.getElementById('rive-frag').textContent);
+    if(!vs||!fs){ document.body.style.background='#000814'; return; }
+    var prog=gl.createProgram(); gl.attachShader(prog,vs); gl.attachShader(prog,fs); gl.linkProgram(prog);
+    if(!gl.getProgramParameter(prog,gl.LINK_STATUS)){ console.error(gl.getProgramInfoLog(prog)); document.body.style.background='#000814'; return; }
+    gl.useProgram(prog);
+    var buf=gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER,buf);
+    gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1, 3,-1, -1,3]),gl.STATIC_DRAW);
+    var aPos=gl.getAttribLocation(prog,'a_pos'); gl.enableVertexAttribArray(aPos);
+    gl.vertexAttribPointer(aPos,2,gl.FLOAT,false,0,0);
+    var U={}; ['u_colors','u_scene','u_shape','u_surface','u_finish','u_transform','u_space','u_cursor']
+      .forEach(function(n){ U[n]=gl.getUniformLocation(prog,n); });
+    // palette (first 4 of 8 used), blended in OKLab via u_transform.w=1
+    var colors=new Float32Array(24);
+    [[0,0,0],[0.122,0.318,1.0],[0.0,0.898,1.0],[0.918,0.992,1.0]].forEach(function(c,i){
+      colors[i*3]=c[0]; colors[i*3+1]=c[1]; colors[i*3+2]=c[2]; });
+    gl.uniform3fv(U.u_colors,colors);
+    var W=0,H=0;
+    function resize(){
+      var dpr=Math.min(window.devicePixelRatio||1,2);
+      var w=Math.floor(canvas.clientWidth*dpr), h=Math.floor(canvas.clientHeight*dpr);
+      if(w&&h&&(w!==W||h!==H)){ W=w; H=h; canvas.width=w; canvas.height=h; gl.viewport(0,0,w,h); }
+    }
+    window.addEventListener('resize',resize);
+    var ptr={x:0,y:0,on:0};
+    window.addEventListener('mousemove',function(e){
+      var r=canvas.getBoundingClientRect();
+      ptr.x=((e.clientX-r.left)/r.width)*2-1;
+      ptr.y=1-((e.clientY-r.top)/r.height)*2;
+      ptr.on=1;
+    });
+    window.addEventListener('mouseout',function(e){ if(!e.relatedTarget) ptr.on=0; });
+    var start=null, raf=null, running=true;
+    function frame(t){
+      if(!running) return;
+      if(start===null) start=t;
+      var seconds=(t-start)/1000;
+      resize();
+      gl.uniform4f(U.u_scene, W, H, seconds*-0.21, 4.0);
+      gl.uniform4f(U.u_shape, 2.00, 0.54, 0.47, 0.04);
+      gl.uniform4f(U.u_surface, 1.54, 1.16, -0.06, 0.96);
+      gl.uniform4f(U.u_finish, 0.0, 0.21, 0.0, 0.00);
+      gl.uniform4f(U.u_transform, 4012.0, 5.65, 0.12, 1.0);
+      gl.uniform4f(U.u_space, 0.11, -0.19, ptr.x, ptr.y);
+      gl.uniform4f(U.u_cursor, ptr.on, 1.0, 0.05, 0.73);
+      gl.drawArrays(gl.TRIANGLES,0,3);
+      raf=requestAnimationFrame(frame);
+    }
+    document.addEventListener('visibilitychange',function(){
+      if(document.hidden){ running=false; if(raf) cancelAnimationFrame(raf); }
+      else if(!running){ running=true; start=null; raf=requestAnimationFrame(frame); }
+    });
+    resize();
+    raf=requestAnimationFrame(frame);
+  })();
+</script>
+
+<script src="assets/nav.js"></script>
+</body>
+</html>

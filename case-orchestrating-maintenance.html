@@ -1,0 +1,615 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Orchestrating Maintenance at Industrial Scale | Rive</title>
+<meta name="description" content="How Rive built an AI pipeline and industrial knowledge graph to connect assets, engineering documents and maintenance history for an oil refinery's first plant." />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Crect width='256' height='256' rx='52' fill='%2300A21E'/%3E%3Cpath d='M72.9044 183.032V107.531C72.9044 100.99 76.4011 94.9289 82.0644 91.6654L117.127 71.4258H90.3604L55.2976 91.6654C49.6344 94.9427 46.1377 100.99 46.1377 107.531V183.032H72.9044Z' fill='%23F3FCE9'/%3E%3Cpath d='M121.474 183.032V107.531C121.474 100.99 124.971 94.9289 130.634 91.6654L165.669 71.4258H138.902L103.84 91.6654C98.1764 94.9427 94.6797 100.99 94.6797 107.531V183.032H121.46H121.474Z' fill='%23F3FCE9'/%3E%3Cpath d='M170.002 183.032V107.531C170.002 100.99 173.499 94.9289 179.162 91.6654L214.225 71.4258H187.458L152.395 91.6654C146.732 94.9427 143.235 100.99 143.235 107.531V183.032H170.002Z' fill='%23F3FCE9'/%3E%3C/svg%3E" />
+<style>
+  :root{
+    --bg:#ffffff;--panel:#f6f6f2;--panel-2:#fafaf7;--ink:#1a1614;--muted:#6b6862;--faint:#9a978f;
+    --line:#eceae4;--line-2:#dcdad3;--dark:#211d1a;--dark-hover:#302b26;--teal:#052424;--lime:#abff02;
+    --sans:"Geist",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,"SF Mono","Roboto Mono",Menlo,Consolas,monospace;
+    --radius:999px;
+    --content:720px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6;
+    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  h1,h2,h3{margin:0;font-family:var(--sans);font-weight:600;letter-spacing:-.02em;line-height:1.15}
+  img{max-width:100%}
+
+  /* one column for the whole article */
+  .wrap{max-width:var(--content);margin:0 auto;padding:0 24px}
+  .col{max-width:var(--content)}
+
+  /* ===== floating header (identical to home) ===== */
+  nav.bar{position:fixed;top:34px;left:0;right:0;z-index:50;display:flex;justify-content:center;align-items:center;padding:0 24px;pointer-events:none;transition:top .35s cubic-bezier(.4,0,.2,1)}
+  .bar{--nav-pill-bg:rgba(244,244,240,.72);--nav-pill-bd:rgba(255,255,255,.55);--nav-shadow:0 1px 2px rgba(0,0,0,.05),0 10px 30px rgba(0,0,0,.06);--nav-text:#5b5852;--nav-strong:#141210;--nav-hover-bg:rgba(0,0,0,.055);--nav-logo:#141210;--nav-btn-bg:#1b1815;--nav-btn-text:#f6f4f0;--nav-btn-hover:#2c2723}
+  .bar[data-theme="dark"]{--nav-pill-bg:rgba(20,22,28,.42);--nav-pill-bd:rgba(255,255,255,.15);--nav-shadow:0 1px 2px rgba(0,0,0,.22),0 12px 34px rgba(0,0,0,.34);--nav-text:rgba(255,255,255,.72);--nav-strong:#ffffff;--nav-hover-bg:rgba(255,255,255,.13);--nav-logo:#ffffff;--nav-btn-bg:#f6f4f0;--nav-btn-text:#161310;--nav-btn-hover:#ffffff}
+  .bar.scrolled{top:18px}
+  .bar.scrolled .pill{--nav-pill-bg:rgba(249,249,246,.9)}
+  .bar.scrolled[data-theme="dark"] .pill{--nav-pill-bg:rgba(16,18,24,.62)}
+  @media(prefers-reduced-motion:reduce){nav.bar,.pill,.nav-links a,.nav-right .signin,.btn-dark,.nav-brand .brand-logo path{transition:none}}
+  .navgrid{width:100%;max-width:1440px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:16px}
+  .nav-brand{justify-self:start;pointer-events:auto;display:flex;align-items:center;height:52px;padding:0 22px}
+  .nav-brand .brand-logo{height:20px;width:auto;display:block}
+  .nav-brand .brand-logo path{fill:var(--nav-logo);transition:fill .35s ease}
+  .nav-links{justify-self:center;pointer-events:auto;display:flex;align-items:center;height:52px;gap:2px;padding:0 6px}
+  .nav-links a{padding:9px 16px;border-radius:var(--radius);font-size:14px;font-weight:500;letter-spacing:-.006em;color:var(--nav-text);transition:color .25s ease,background .25s ease}
+  .nav-links a:hover{background:var(--nav-hover-bg);color:var(--nav-strong)}
+  .nav-links a[aria-current="page"]{color:var(--nav-strong);background:var(--nav-hover-bg)}
+  .nav-actions{justify-self:end;position:relative;display:flex;align-items:center;gap:10px}
+  .pill{pointer-events:auto;background:var(--nav-pill-bg);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    border:1px solid var(--nav-pill-bd);border-radius:var(--radius);box-shadow:var(--nav-shadow);transition:background .45s ease,border-color .45s ease,box-shadow .45s ease}
+  .nav-main{display:flex;align-items:center;gap:4px;padding:8px 16px 8px 12px}
+  .nav-main .brand{display:flex;align-items:center;padding:4px 6px;margin-right:2px}
+  .nav-main .nav-link{padding:8px 16px;border-radius:var(--radius);font-size:14px;color:var(--muted);transition:.2s}
+  .nav-main .nav-link:hover{background:rgba(0,0,0,.05);color:var(--ink)}
+  .nav-center{justify-self:center;display:flex;align-items:center;gap:10px;padding:14px 26px}
+  .brand{display:flex;align-items:center;gap:10px}
+  .brand-logo{height:21px;width:auto;flex:0 0 auto;display:block}
+  .nav-right{display:flex;align-items:center;height:52px;gap:8px;padding:0 6px}
+  .nav-right .signin{padding:9px 18px;font-size:14px;font-weight:500;letter-spacing:-.006em;color:var(--nav-text);border-radius:var(--radius);transition:color .25s ease,background .25s ease}
+  .nav-right .signin:hover{color:var(--nav-strong);background:var(--nav-hover-bg)}
+  .btn{display:inline-flex;align-items:center;gap:8px;border-radius:var(--radius);font-size:14.5px;font-weight:500;cursor:pointer;border:1px solid transparent;transition:.2s;white-space:nowrap}
+  .btn-dark{background:var(--nav-btn-bg);color:var(--nav-btn-text);font-size:14px;letter-spacing:-.006em;padding:9px 20px;transition:background .3s ease,color .3s ease}
+  .btn-dark:hover{background:var(--nav-btn-hover)}
+  .nav-actions .btn-dark::after{content:"\2192";font-size:13px;line-height:1;display:inline-block;transition:transform .25s ease}
+  .nav-actions .btn-dark:hover::after{transform:translateX(3px)}
+  .nav-brand-group{display:flex;align-items:center;gap:10px;position:relative}
+  .nav-burger{display:none;width:46px;height:46px;padding:0;align-items:center;justify-content:center;cursor:pointer}
+  .burger-ico{position:relative;width:18px;height:12px;display:block}
+  .burger-ico i{position:absolute;left:0;right:0;height:2px;background:var(--nav-logo);border-radius:2px;transition:transform .25s,opacity .2s,top .25s}
+  .burger-ico i:nth-child(1){top:0}.burger-ico i:nth-child(2){top:5px}.burger-ico i:nth-child(3){top:10px}
+  .nav-burger.open .burger-ico i:nth-child(1){top:5px;transform:rotate(45deg)}
+  .nav-burger.open .burger-ico i:nth-child(2){opacity:0}
+  .nav-burger.open .burger-ico i:nth-child(3){top:5px;transform:rotate(-45deg)}
+  .nav-menu{display:none;position:absolute;top:calc(100% + 12px);right:0;min-width:212px;flex-direction:column;gap:2px;padding:10px;
+    background:rgba(242,242,236,.86);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+    border:1px solid rgba(255,255,255,.55);border-radius:20px;box-shadow:0 14px 44px rgba(0,0,0,.14);
+    opacity:0;visibility:hidden;pointer-events:none;transform:translateY(-8px) scale(.98);transform-origin:top right;
+    transition:opacity .22s,transform .22s,visibility .22s;z-index:60}
+  .nav-menu a{padding:12px 16px;border-radius:12px;font-size:15px;color:var(--muted);transition:background .15s,color .15s}
+  .nav-menu a:hover{background:rgba(0,0,0,.06);color:var(--ink)}
+  @media(max-width:900px){
+    .nav-links,.nav-right .signin{display:none}
+    .navgrid{grid-template-columns:auto 1fr}
+    .nav-burger{display:flex}
+    .nav-brand-group{grid-column:1;justify-self:start}
+    .nav-center{padding:12px 18px}
+    .nav-right{grid-column:2;justify-self:end}
+    .nav-menu{display:flex}
+    .nav-menu.open{opacity:1;visibility:visible;pointer-events:auto;transform:none}
+  }
+
+  /* ===== article ===== */
+  .cs-hero{padding:clamp(122px,15vw,150px) 0 0}
+  .eyebrow{font-family:var(--sans);text-transform:none;letter-spacing:.01em;font-size:13px;font-weight:500;color:var(--faint)}
+  .cs-hero .eyebrow{margin-bottom:16px}
+  .cs-hero h1{font-size:clamp(32px,4.8vw,50px);line-height:1.1;letter-spacing:-.03em}
+  .cs-lead{margin-top:22px;font-size:20px;line-height:1.55;color:#3b3733}
+
+  .cs-banner{margin:clamp(30px,5vw,44px) 0}
+  .cs-banner img{width:100%;height:auto;display:block;border-radius:12px;aspect-ratio:16/9;object-fit:cover}
+
+  .glance{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:clamp(28px,4vw,40px) 0}
+  @media(max-width:460px){.glance{grid-template-columns:1fr}}
+  .glance .g{background:#fff;padding:20px 22px}
+  .glance .g .k{font-size:12.5px;color:var(--faint)}
+  .glance .g .v{margin-top:8px;font-size:17px;font-weight:600;line-height:1.3}
+
+  section.cs{padding:clamp(40px,5.5vw,60px) 0}
+  .cs-head{margin-bottom:22px}
+  .cs-head .eyebrow{margin-bottom:10px}
+  .cs-head h2{font-size:clamp(24px,3.2vw,32px);line-height:1.2;letter-spacing:-.025em}
+  .body p{color:#2b2926;font-size:18px;line-height:1.8}
+  .body p + p{margin-top:22px}
+  .body>*+ul{margin-top:22px}
+
+  .bullets,.metrics{list-style:none;margin:22px 0 0;padding:0;display:grid;gap:14px}
+  .bullets li,.metrics li{position:relative;padding-left:26px;color:#2b2926;font-size:18px;line-height:1.7}
+  .bullets li::before,.metrics li::before{content:"";position:absolute;left:2px;top:11px;width:7px;height:7px;border-radius:50%;background:#00A21E}
+
+  .steps{margin-top:6px}
+  .step{display:grid;grid-template-columns:38px 1fr;gap:16px;padding:22px 0;border-top:1px solid var(--line)}
+  .step:first-child{border-top:none}
+  @media(max-width:520px){.step{grid-template-columns:1fr;gap:6px}}
+  .step .num{font-family:var(--sans);font-size:14px;font-weight:500;color:var(--faint);padding-top:2px}
+  .step h3{font-size:19px}
+  .step p{margin-top:8px;color:#2b2926;font-size:17.5px;line-height:1.65}
+  .step>div>p:first-child{margin-top:0}
+
+  .blocks{margin-top:6px}
+  .block-item{padding:22px 0;border-top:1px solid var(--line)}
+  .block-item:first-child{border-top:none}
+  .block-item h3{font-size:19px}
+  .block-item p{margin-top:8px;color:#2b2926;font-size:17.5px;line-height:1.7}
+
+  .cs-table-wrap{overflow-x:auto;margin-top:24px;border:1px solid var(--line);border-radius:12px}
+  .cs-table{width:100%;border-collapse:collapse;font-size:16px}
+  .cs-table th,.cs-table td{text-align:left;padding:14px 18px;border-bottom:1px solid var(--line)}
+  .cs-table tr:last-child td{border-bottom:none}
+  .cs-table thead th{font-size:13px;font-weight:600;color:var(--faint)}
+  .cs-table thead th:last-child{color:#00A21E}
+  .cs-table td:first-child{color:var(--ink);font-weight:500}
+  .cs-table td{color:var(--muted)}
+  .cs-table td:last-child{color:var(--ink);font-weight:600}
+
+  .cs-cta{margin:clamp(40px,6vw,60px) 0 0;background:var(--teal);border-radius:16px;padding:clamp(36px,6vw,56px);text-align:center;color:#fff}
+  .cs-cta h2{font-weight:500;font-size:clamp(23px,3.2vw,32px);letter-spacing:-.02em;max-width:24ch;margin:0 auto;color:#fff}
+  .cs-cta .btn-lime{display:inline-block;margin-top:24px;background:var(--lime);color:var(--teal);font-weight:600;font-size:14px;padding:14px 32px;border-radius:8px;transition:filter .2s}
+  .cs-cta .btn-lime:hover{filter:brightness(1.06)}
+
+  /* page-transition shutter */
+  .pt{position:fixed;inset:0;z-index:500;display:grid;grid-template-columns:repeat(4,1fr);pointer-events:none}
+  .pt i{background:#0b0c0c;will-change:transform;animation:ptUp .55s cubic-bezier(.76,0,.24,1) forwards}
+  .pt i:nth-child(even){animation-name:ptDown}
+  .pt i:nth-child(2){animation-delay:.06s}.pt i:nth-child(3){animation-delay:.12s}.pt i:nth-child(4){animation-delay:.18s}
+  @keyframes ptUp{to{transform:translateY(-101%)}}
+  @keyframes ptDown{to{transform:translateY(101%)}}
+  @media(prefers-reduced-motion:reduce){.pt{display:none}}
+
+  footer.f{background:var(--teal);color:#fff;padding:64px 0 44px;margin-top:clamp(60px,8vw,90px)}
+  .f-in{max-width:var(--content);margin:0 auto;padding:0 24px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+  .f-logo{display:flex;align-items:center;gap:11px;font-size:22px;font-weight:600}
+  .f-logo svg{width:26px;height:26px}
+  .f-cp{color:rgba(255,255,255,.45);font-size:12px}
+
+  /* ---------- FOOTER (Terminal-style) ---------- */
+  .tf{position:relative;background:#052424;color:#fff;font-family:var(--sans);overflow:hidden}
+  .tf-glow{position:absolute;left:50%;top:0;width:min(760px,70%);height:420px;transform:translateX(-50%);pointer-events:none;z-index:0;
+    background:radial-gradient(ellipse at 50% 0%,rgba(171,255,2,.10),rgba(171,255,2,0) 68%)}
+  .tf-frame{position:absolute;inset:24px;border:1px solid rgba(255,255,255,.07);border-radius:44px;pointer-events:none;z-index:1}
+  .tf-dots{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;display:block}
+  .tf-inner{position:relative;z-index:2;max-width:1440px;margin:0 auto;padding:0 clamp(24px,5vw,80px)}
+
+  /* CTA band */
+  .tf-cta{text-align:center;padding:clamp(78px,12vw,150px) 0 clamp(116px,16vw,208px)}
+  .tf-cta h2{font-family:var(--sans);font-weight:400;font-size:clamp(38px,7vw,70px);line-height:.95;letter-spacing:-.02em;color:#fff;max-width:none;margin:0 auto}
+  .tf-take{position:relative;overflow:hidden;display:inline-block;margin-top:clamp(32px,4vw,52px);background:rgba(255,255,255,.15);color:#fff;
+    font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:1.98px;text-transform:uppercase;
+    padding:15px 40px;border-radius:8px;transition:background .25s,transform .25s,box-shadow .25s;backdrop-filter:blur(4px)}
+  .tf-take span{position:relative;z-index:1}
+  .tf-take::before{content:"";position:absolute;top:0;left:-160%;width:70%;height:100%;z-index:0;
+    background:linear-gradient(100deg,transparent,rgba(255,255,255,.45),transparent);
+    transform:skewX(-18deg);animation:tf-shine 3.8s ease-in-out infinite}
+  @keyframes tf-shine{0%{left:-160%}55%,100%{left:160%}}
+  .tf-take:hover{background:rgba(255,255,255,.28);transform:translateY(-3px);box-shadow:0 14px 34px rgba(0,0,0,.28)}
+  @media(prefers-reduced-motion:reduce){.tf-take::before{animation:none}}
+
+  /* columns */
+  .tf-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1.3fr;gap:44px;padding-bottom:clamp(50px,7vw,88px)}
+  @media(max-width:860px){.tf-grid{grid-template-columns:1fr 1fr;gap:44px 32px}}
+  @media(max-width:520px){.tf-grid{grid-template-columns:1fr;gap:38px}}
+  .tf-logo{display:flex;align-items:center;gap:11px;font-size:27px;font-weight:600;color:#fff;letter-spacing:.01em}
+  .tf-logo svg{width:30px;height:30px;flex:0 0 auto}
+  .tf-tag{margin-top:22px;color:#586a6a;font-size:15px;line-height:1.6;max-width:28ch}
+  .tf-tag address{font-style:normal;margin-top:14px;display:block}
+  .tf-h{font-family:"Geist Mono",var(--sans);font-size:11px;font-weight:600;letter-spacing:1.98px;text-transform:uppercase;color:#6f8383;margin-bottom:26px}
+  .tf-links a{display:block;color:#fff;font-size:20px;line-height:1.35;padding:8px 0;transition:opacity .2s;opacity:.94}
+  .tf-links a:hover{opacity:.55}
+  .tf-reach .big{color:#fff;font-size:20px;line-height:1.45}
+  .tf-reach .muted{color:#586a6a;font-size:20px;line-height:1.45;margin-top:4px}
+  .tf-social{display:flex;gap:14px;margin-top:30px}
+  .tf-social a{width:42px;height:42px;border-radius:9px;background:#fff;color:#052424;display:flex;align-items:center;justify-content:center;transition:background .2s,transform .2s}
+  .tf-social a:hover{background:#abff02;transform:translateY(-2px)}
+  .tf-social svg{width:18px;height:18px}
+
+  /* bottom bar */
+  .tf-bot{padding:8px 0 40px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+  .tf-bot .cp{color:rgba(255,255,255,.4);font-size:12px;letter-spacing:.02em}
+  .tf-bot .idx{color:rgba(255,255,255,.4);font-size:12px;transition:color .2s}
+  .tf-bot .idx:hover{color:rgba(255,255,255,.75)}
+  .tf-handle{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);width:64px;height:5px;border-radius:3px;background:rgba(255,255,255,.2);z-index:2}
+
+  /* more case studies */
+  .more{padding:clamp(68px,10vw,104px) 0 clamp(24px,6vw,48px);border-top:1px solid var(--line)}
+  .more h2{font-size:clamp(20px,2.6vw,26px);letter-spacing:-.02em;margin-bottom:22px}
+  .more-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  @media(max-width:560px){.more-grid{grid-template-columns:1fr}}
+  .more-card{display:block}
+  .more-card .thumb{border-radius:12px;overflow:hidden;aspect-ratio:16/9;background:var(--panel);border:1px solid var(--line)}
+  .more-card .thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+  .more-card:hover .thumb img{transform:scale(1.05)}
+  .more-card .cat{margin-top:14px;font-size:13px;color:var(--faint)}
+  .more-card .t{margin-top:6px;font-size:18px;font-weight:600;letter-spacing:-.01em;color:var(--ink);line-height:1.28;transition:opacity .2s}
+  .more-card:hover .t{opacity:.7}
+
+  /* on-this-page navigation */
+  header.cs-hero,section.cs{scroll-margin-top:110px}
+  .toc{position:fixed;top:50%;transform:translateY(-50%);left:calc(50% + 380px);width:212px;z-index:40;transition:opacity .3s ease,visibility .3s}
+  .toc.hide{opacity:0;visibility:hidden;pointer-events:none}
+  .toc-list{position:relative;display:flex;flex-direction:column;gap:20px}
+  .toc-list::before{content:"";position:absolute;left:0;top:5px;bottom:5px;width:1px;background:var(--line);z-index:0}
+  .toc-ind{position:absolute;left:-0.5px;top:0;width:2px;height:0;background:var(--ink);border-radius:2px;z-index:2;
+    transition:transform .42s cubic-bezier(.22,1,.36,1),height .42s cubic-bezier(.22,1,.36,1)}
+  .toc-link{position:relative;z-index:1;display:block;padding-left:20px;font-size:14px;line-height:1.4;color:var(--muted);transition:color .3s ease}
+  .toc-link:hover{color:var(--ink)}
+  .toc-link.active{color:var(--ink);font-weight:600}
+  @media(max-width:1240px){.toc{display:none}}
+
+  /* back link */
+  .cs-back{display:inline-flex;align-items:center;gap:7px;font-size:14px;color:var(--muted);margin-bottom:26px;transition:color .2s}
+  .cs-back:hover{color:var(--ink)}
+  .cs-back svg{width:15px;height:15px;flex:0 0 auto}
+
+  /* key takeaways box */
+  .takeaways{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:clamp(24px,4vw,34px);margin-top:26px}
+  .kt-label{font-size:12.5px;letter-spacing:.04em;color:var(--faint);font-weight:600;margin-bottom:18px}
+  .takeaways ul{margin:0}
+  .takeaways li{padding-left:38px;font-size:17px;line-height:1.6;color:#2b2926}
+  .takeaways li::before{content:"";left:0;top:1px;width:22px;height:22px;border-radius:0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='11' fill='%2300A21E'/%3E%3Cpath d='M7 12.4l3.3 3.3L17 9' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat center/contain}
+
+  /* numbered challenge list (editorial) */
+  .cs-list{list-style:none;margin:30px 0 0;padding:0;counter-reset:cl;display:grid;gap:24px}
+  .cs-list li{counter-increment:cl;display:grid;grid-template-columns:40px 1fr;align-items:start;font-size:17px;line-height:1.62;color:#2b2926}
+  .cs-list li::before{content:counter(cl,decimal-leading-zero);font-size:13px;font-weight:600;color:var(--faint);font-variant-numeric:tabular-nums;letter-spacing:.03em;padding-top:4px}
+  @media(max-width:520px){.cs-list li{grid-template-columns:30px 1fr}}
+
+</style>
+</head>
+<body>
+<div class="pt" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+
+<nav class="bar">
+  <div class="navgrid">
+    <a class="pill nav-brand" href="index.html" aria-label="Rive"><svg class="brand-logo" viewBox="0 0 366 72" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <g clip-path="url(#hdr_logo_clip)">
+              <path d="M24.2516 72V23.1773C24.2516 18.9477 26.5127 15.0284 30.1749 12.918L52.8482 -0.169922H35.5395L12.8661 12.918C9.204 15.0373 6.94287 18.9477 6.94287 23.1773V72H24.2516Z" fill="#1a1614"/>
+              <path d="M55.6506 72V23.1773C55.6506 18.9477 57.9117 15.0284 61.5739 12.918L84.2384 -0.169922H66.9296L44.2563 12.918C40.5941 15.0373 38.333 18.9477 38.333 23.1773V72H55.6417H55.6506Z" fill="#1a1614"/>
+              <path d="M87.0402 72V23.1773C87.0402 18.9477 89.3013 15.0284 92.9634 12.918L115.637 -0.169922H98.3281L75.6547 12.918C71.9926 15.0373 69.7314 18.9477 69.7314 23.1773V72H87.0402Z" fill="#1a1614"/>
+              <path d="M143.46 72.2504V0.19043H177.27C185.32 0.19043 191.65 2.17043 196.24 6.13043C200.83 10.0904 203.13 15.3904 203.13 22.0304V23.0904C203.13 27.5404 202.07 31.4104 199.95 34.6904C197.83 37.9704 194.81 40.5004 190.89 42.2704C186.97 44.0404 182.32 44.9204 176.95 44.9204H158.51V72.2604H143.46V72.2504ZM158.51 33.5704H176.1C179.77 33.5704 182.63 32.7204 184.68 31.0304C186.73 29.3304 187.75 26.8304 187.75 23.5104V22.4504C187.75 19.1304 186.65 16.5704 184.47 14.7704C182.28 12.9704 179.06 12.0704 174.83 12.0704H158.51V33.5804V33.5704ZM186.49 72.2504L164.34 41.5204H181.4L204.72 72.2504H186.49Z" fill="#1a1614"/>
+              <path d="M214.68 72.2504V0.19043H229.73V72.2604H214.68V72.2504Z" fill="#1a1614"/>
+              <path d="M259.09 72.2504L236.73 0.19043H252.73L273.5 70.1404H271.91L292.15 0.19043H307.84L285.69 72.2604H259.09V72.2504Z" fill="#1a1614"/>
+              <path d="M314.83 72.2504V0.19043H366.23V12.7004H329.88V28.9204H363.58V41.3204H329.88V59.7604H366.23V72.2704H314.83V72.2504Z" fill="#1a1614"/>
+            </g>
+            <defs><clipPath id="hdr_logo_clip"><rect width="366" height="72" fill="white"/></clipPath></defs>
+          </svg></a>
+    <div class="pill nav-links">
+      <a href="platform.html">Platform</a>
+      <a href="research.html">Solutions</a>
+      <a href="company.html">Company</a>
+    </div>
+    <div class="nav-actions">
+      <div class="pill nav-right">
+        <a class="signin" href="contact.html">Contact us</a>
+        <a class="btn btn-dark" href="book-a-demo.html">Book a demo</a>
+      </div>
+      <button class="pill nav-burger" id="navBurger" aria-label="Open menu" aria-expanded="false" aria-controls="navMenu"><span class="burger-ico"><i></i><i></i><i></i></span></button>
+      <div class="nav-menu" id="navMenu">
+        <a href="platform.html">Platform</a>
+        <a href="research.html">Solutions</a>
+        <a href="company.html">Company</a>
+        <a href="contact.html">Contact us</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<nav class="toc" aria-label="On this page">
+  <div class="toc-list"><span class="toc-ind" aria-hidden="true"></span>
+  <a class="toc-link" href="#overview"><span class="lbl">Overview</span></a>
+  <a class="toc-link" href="#the-challenge"><span class="lbl">The challenge</span></a>
+  <a class="toc-link" href="#the-approach"><span class="lbl">The approach</span></a>
+  <a class="toc-link" href="#in-practice"><span class="lbl">In practice</span></a>
+  <a class="toc-link" href="#results"><span class="lbl">Results</span></a>
+</div>
+</nav>
+
+<header class="cs-hero" id="overview">
+  <div class="wrap">
+    <a class="cs-back" href="index.html#cases"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>Case studies</a>
+    <div class="eyebrow">Oil &amp; gas refining · Case study</div>
+    <h1>Orchestrating Maintenance at Industrial Scale</h1>
+    <p class="cs-lead">The Oil Refinery operates multiple refining plants, with a very large equipment estate and a large engineering and maintenance document repository: P&amp;IDs, equipment data sheets, OEM and maintenance manuals, troubleshooting guides, operating procedures, spare-parts documentation and technical drawings. Both the equipment records and the documents already existed. What was missing were the relationships between them. Rive built an AI pipeline and industrial knowledge graph to create those relationships automatically, starting with the Oil Refinery's first plant.</p>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="cs-banner">
+    <img src="assets/case-oil-gas.avif" alt="Aerial view of an offshore oil and gas refining platform" />
+  </div>
+
+  <!-- AT A GLANCE -->
+  <div class="glance">
+    <div class="g"><div class="k">Industry</div><div class="v">Oil &amp; Gas Refining</div></div>
+    <div class="g"><div class="k">Operational context</div><div class="v">Multi-plant refinery operations</div></div>
+    <div class="g"><div class="k">Source systems</div><div class="v">SAP Plant Maintenance</div></div>
+    <div class="g"><div class="k">Document ingestion</div><div class="v">Engineering document processing</div></div>
+  </div>
+</div>
+
+<!-- CHALLENGE -->
+<section class="cs" id="the-challenge">
+  <div class="wrap col">
+    <div class="cs-head"><div class="eyebrow">01 · The challenge</div><h2>Everything existed, except the connections</h2></div>
+    <div class="body">
+      <p>Although the Oil Refinery held both the asset records and the documents, there was no reliable way to know which documents belonged to a given asset, which assets appeared in a P&amp;ID, which manual applied to a specific equipment record, or which surrounding assets a failure might affect. To gather the information for a single maintenance activity, technicians and planners had to search across SAP, document repositories, shared folders, drawings and manuals.</p>
+      <p>The Oil Refinery initially considered handing the document-to-asset matching to an external service provider. That approach meant a large team manually inspecting documents, reading off equipment tag numbers, and associating each document with the correct record. For the full scope, the estimate was roughly:</p>
+      <ul class="metrics">
+        <li>A large team working over an extended period</li>
+        <li>A substantial amount of manual effort</li>
+      </ul>
+      <p>The method was slow, expensive, hard to scale, dependent on manual interpretation, and difficult to maintain as new assets and documents were added. The real problem was not document management. It was the absence of a connected digital relationship between the Oil Refinery's assets, engineering documents, maintenance history, procedures, spare parts and process dependencies.</p>
+    </div>
+  </div>
+</section>
+
+<!-- APPROACH -->
+<section class="cs" id="the-approach">
+  <div class="wrap">
+    <div class="cs-head col"><div class="eyebrow">02 · The approach</div><h2>A pipeline of specialized agents</h2></div>
+    <div class="body col"><p>Rive designed a Document-to-Tag Matching pipeline that automates the creation of these relationships. Several specialized AI agents work in parallel to process technical documents, identify equipment tags, link them to SAP equipment records, extract asset knowledge, and organize everything within an industrial knowledge graph.</p></div>
+    <div class="steps">
+      <div class="step"><div class="num">01</div><div><h3>Ingesting the repository</h3><p>The Oil Refinery uploads its engineering and maintenance documents. The pipeline handles structured and unstructured files, scanned documents, engineering drawings, P&amp;IDs, tables and data sheets, and OEM and maintenance manuals.</p></div></div>
+      <div class="step"><div class="num">02</div><div><h3>Extracting equipment tags</h3><p>The Document-to-Tag Matching Agent reads each document and identifies the equipment tag numbers within it, across body text, tables and engineering drawings, including upstream and downstream relationships, then creates structured document-to-asset links.</p></div></div>
+      <div class="step"><div class="num">03</div><div><h3>Confidence-based human review</h3><p>Every proposed match receives a confidence score. High-confidence matches pass through automatically; reviewers focus only on low-confidence and ambiguous cases, keeping human control over uncertain relationships without checking everything by hand.</p></div></div>
+      <div class="step"><div class="num">04</div><div><h3>Matching to SAP</h3><p>Validated tags are compared against tag numbers held in the Oil Refinery's SAP Plant Maintenance system, establishing direct links between the physical asset, its SAP record, the relevant documents, and its historical work orders.</p></div></div>
+      <div class="step"><div class="num">05</div><div><h3>Enriching asset records</h3><p>The Asset Data Enrichment Agent reads the linked documents and extracts manufacturer and model details, specifications, operating parameters, spare parts, procedures, troubleshooting and safety information, with each data point staying connected to its source document.</p></div></div>
+      <div class="step"><div class="num">06</div><div><h3>Reading P&amp;IDs</h3><p>Rive processes diagrams to capture how equipment is connected: upstream and downstream relationships, supporting valves and instruments, and the assets potentially affected when equipment is isolated.</p></div></div>
+      <div class="step"><div class="num">07</div><div><h3>Building the knowledge graph</h3><p>The extracted information is consolidated into a connected graph that, for each asset, can surface its SAP record, relevant P&amp;IDs, manuals, specifications, work orders, procedures, spare parts and dependent assets: a digital thread across documentation, SAP data and physical equipment.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- EXECUTION -->
+<section class="cs" id="in-practice">
+  <div class="wrap col">
+    <div class="cs-head"><div class="eyebrow">03 · In practice</div><h2>Maintenance execution in Rive</h2></div>
+    <div class="body">
+      <p>With the graph in place, technicians and planners use Rive as an intelligent maintenance workspace. When a pressure safety valve develops a fault, a technician opens the asset in Rive and, from one interface, reviews the equipment record and specifications, checks previous SAP work orders and when the asset was last maintained, opens the relevant P&amp;ID to understand its process context and connected equipment, retrieves the correct troubleshooting guide and maintenance procedure, and identifies the required spare parts.</p>
+      <p>The technician can then ask the agent to prepare a work order. The draft can include the equipment reference, the identified problem, recommended activities, relevant procedures, required spare parts, safety and isolation considerations, supporting document references and information from previous work orders. The technician reviews and approves it, and the completed work order is created in SAP following the Oil Refinery's existing process. Rive does not replace SAP. It provides the intelligence layer that connects documents, asset knowledge and maintenance history before synchronizing the approved transaction back into the system of record.</p>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section class="cs" id="results">
+  <div class="wrap col">
+    <div class="cs-head"><div class="eyebrow">04 · Results</div><h2>One connected plant, and a repeatable blueprint</h2></div>
+    <div class="body">
+      <p>Rive completed the initial implementation for the Oil Refinery's first plant. The delivered scope covered a substantial asset base within the first plant and a large engineering and maintenance document repository, including automated tag extraction, matching against SAP equipment records, asset-to-document and asset-to-spare-part relationships, extraction of specifications, procedures and troubleshooting content, linking of historical SAP work orders to their assets, and extraction of asset relationships from P&amp;IDs, all consolidated into an industrial asset knowledge graph with AI-assisted work-order preparation that syncs back into SAP.</p>
+      <div class="takeaways"><div class="kt-label">Key takeaways</div><ul class="metrics">
+        <li>The Document-to-Tag Matching pipeline processed a large document repository in a matter of hours.</li>
+        <li>Targeted human review, focused only on low-confidence matches and exceptions, was completed within a matter of weeks.</li>
+        <li>The first plant represents a significant portion of the Oil Refinery's equipment estate and of its engineering and maintenance document repository.</li>
+        <li>The implementation demonstrated that the same pipeline and knowledge-graph architecture can be extended across the Oil Refinery's remaining plants.</li>
+      </ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- MORE CASE STUDIES -->
+<section class="more">
+  <div class="wrap">
+    <h2>More case studies</h2>
+    <div class="more-grid">
+      <a class="more-card" href="case-data-center.html">
+        <div class="thumb"><img src="assets/case-data-center.jpg" alt="AI-powered asset digitization" loading="lazy" /></div>
+        <div class="cat">Data Center &middot; High Tech</div>
+        <div class="t">AI-powered asset digitization</div>
+      </a>
+      <a class="more-card" href="case-discrete-manufacturing.html">
+        <div class="thumb"><img src="assets/case-manufacturing.avif" alt="Production-maintenance intelligence on the line" loading="lazy" /></div>
+        <div class="cat">Discrete Manufacturing</div>
+        <div class="t">Production-maintenance intelligence on the line</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer class="tf" id="company">
+  <canvas class="tf-dots" aria-hidden="true"></canvas>
+  <div class="tf-frame"></div>
+  <div class="tf-inner">
+
+    <!-- CTA band -->
+    <div class="tf-cta" id="demo">
+      <h2 class="reveal">The future of industrial operations<br/>starts today.</h2>
+      <div class="reveal" style="transition-delay:.08s">
+        <a class="tf-take" href="book-a-demo.html"><span>Take control of your operations</span></a>
+      </div>
+    </div>
+
+    <!-- columns -->
+    <div class="tf-grid">
+      <div class="reveal">
+        <div class="tf-logo">
+          <svg viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect width="256" height="256" rx="52" fill="#00A21E"/>
+            <path d="M72.9044 183.032V107.531C72.9044 100.99 76.4011 94.9289 82.0644 91.6654L117.127 71.4258H90.3604L55.2976 91.6654C49.6344 94.9427 46.1377 100.99 46.1377 107.531V183.032H72.9044Z" fill="#F3FCE9"/>
+            <path d="M121.474 183.032V107.531C121.474 100.99 124.971 94.9289 130.634 91.6654L165.669 71.4258H138.902L103.84 91.6654C98.1764 94.9427 94.6797 100.99 94.6797 107.531V183.032H121.46H121.474Z" fill="#F3FCE9"/>
+            <path d="M170.002 183.032V107.531C170.002 100.99 173.499 94.9289 179.162 91.6654L214.225 71.4258H187.458L152.395 91.6654C146.732 94.9427 143.235 100.99 143.235 107.531V183.032H170.002Z" fill="#F3FCE9"/>
+          </svg>
+          RIVE
+        </div>
+        <div class="tf-tag">
+          The industrial decision intelligence platform.
+          <address>
+            Rive Labs, Inc.<br/>
+            Mountain View, CA 94040
+          </address>
+        </div>
+      </div>
+
+      <div class="tf-links reveal" style="transition-delay:.05s">
+        <div class="tf-h">Platform</div>
+        <a href="platform.html">Platform overview</a>
+        <a href="research.html">Solutions</a>
+      </div>
+
+      <div class="tf-links reveal" style="transition-delay:.1s">
+        <div class="tf-h">Company</div>
+        <a href="company.html">About Rive</a>
+        <a href="careers.html">Careers</a>
+        <a href="index.html#cases">Case studies</a>
+        <a href="contact.html">Contact us</a>
+        <a href="book-a-demo.html">Book a demo</a>
+      </div>
+
+      <div class="tf-reach reveal" style="transition-delay:.15s">
+        <div class="tf-h">Reach us</div>
+        <div class="big">Ready for the future of industrial operations?</div>
+        <div class="muted">Book a demo today.</div>
+        <div class="tf-social">
+          <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 1 5 8.5a2.5 2.5 0 0 1-.02-5zM3 9h4v12H3V9zm6 0h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.4c0-1.3-.02-2.96-1.8-2.96-1.8 0-2.08 1.4-2.08 2.86V21H9V9z"/></svg></a>
+          <a href="#" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.2 2H21l-6.5 7.4L22 22h-6.2l-4.9-6.4L5.3 22H2.5l7-8L2 2h6.3l4.4 5.8L18.2 2zm-2.2 18h1.7L8.1 3.8H6.3L16 20z"/></svg></a>
+          <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 12s0-3.2-.4-4.7a2.5 2.5 0 0 0-1.7-1.8C19.3 5 12 5 12 5s-7.3 0-8.9.5A2.5 2.5 0 0 0 1.4 7.3C1 8.8 1 12 1 12s0 3.2.4 4.7a2.5 2.5 0 0 0 1.7 1.8C4.7 19 12 19 12 19s7.3 0 8.9-.5a2.5 2.5 0 0 0 1.7-1.8C23 15.2 23 12 23 12zM9.8 15V9l5.2 3-5.2 3z"/></svg></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- bottom bar -->
+    <div class="tf-bot">
+      <div class="cp">Copyright Rive Labs, Inc. © 2026 All Rights Reserved</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // responsive hamburger menu
+  (function(){
+    const burger = document.getElementById('navBurger');
+    const menu = document.getElementById('navMenu');
+    if(!burger || !menu) return;
+    function setOpen(open){
+      burger.classList.toggle('open', open);
+      menu.classList.toggle('open', open);
+      burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    }
+    burger.addEventListener('click', e => { e.stopPropagation(); setOpen(!menu.classList.contains('open')); });
+    menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setOpen(false)));
+    document.addEventListener('click', e => { if(!menu.contains(e.target) && !burger.contains(e.target)) setOpen(false); });
+    addEventListener('keydown', e => { if(e.key === 'Escape') setOpen(false); });
+    // close if resized back up to desktop
+    addEventListener('resize', () => { if(innerWidth > 900) setOpen(false); });
+  })();
+
+  // hide the shutter overlay after it opens
+  (function(){ var pt=document.querySelector('.pt'); if(pt) setTimeout(function(){ pt.style.display='none'; }, 950); })();
+
+  // footer: subtle glow that follows the cursor — invisible at rest, gentle ease in/out
+  (function(){
+    const footer = document.querySelector('.tf');
+    const canvas = footer && footer.querySelector('.tf-dots');
+    if(!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const GAP = 30;          // dot spacing
+    const R   = 170;         // bloom radius
+    const EASE = 0.06;       // slower = more refined settle
+    const MAXA = 0.42;       // keep dots faint so they never overpower the text/buttons
+    let W = 0, H = 0, dots = [], running = false, raf = 0;
+    const mouse = { x: -9999, y: -9999, tx: -9999, ty: -9999, active: false };
+
+    function build(){
+      const r = footer.getBoundingClientRect();
+      W = r.width; H = r.height;
+      canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      dots = [];
+      for(let y = GAP/2; y < H; y += GAP)
+        for(let x = GAP/2; x < W; x += GAP) dots.push({ x, y, v: 0 });
+    }
+
+    function ensure(){ if(!running){ running = true; raf = requestAnimationFrame(loop); } }
+
+    footer.addEventListener('pointermove', e => {
+      // no bloom while hovering the CTA button
+      if(e.target.closest && e.target.closest('.tf-take')){ mouse.active = false; ensure(); return; }
+      const r = footer.getBoundingClientRect();
+      mouse.tx = e.clientX - r.left; mouse.ty = e.clientY - r.top;
+      if(!mouse.active){ mouse.x = mouse.tx; mouse.y = mouse.ty; } // no jump on first entry
+      mouse.active = true; ensure();
+    });
+    footer.addEventListener('pointerleave', () => { mouse.active = false; ensure(); });
+
+    function frame(){
+      ctx.clearRect(0, 0, W, H);
+      // eased pointer position (adds to the refined, unhurried feel)
+      mouse.x += (mouse.tx - mouse.x) * 0.14;
+      mouse.y += (mouse.ty - mouse.y) * 0.14;
+      let busy = mouse.active;
+      for(const d of dots){
+        let target = 0;
+        if(mouse.active){
+          const dist = Math.hypot(d.x - mouse.x, d.y - mouse.y);
+          if(dist < R){ const n = 1 - dist / R; target = n * n * (3 - 2 * n); } // smoothstep falloff
+        }
+        d.v += (target - d.v) * EASE;                 // gentle ease in AND out
+        if(d.v > 0.004){
+          busy = true;
+          const e = d.v;
+          const radius = 0.6 + e * 2.6;
+          const alpha  = e * MAXA;
+          ctx.beginPath();
+          ctx.arc(d.x, d.y, radius, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(171,255,2,' + alpha.toFixed(3) + ')';
+          if(e > 0.55){ ctx.shadowColor = 'rgba(171,255,2,0.45)'; ctx.shadowBlur = 7 * e; }
+          else ctx.shadowBlur = 0;
+          ctx.fill();
+        }
+      }
+      ctx.shadowBlur = 0;
+      return busy;
+    }
+
+    function loop(){
+      const busy = frame();
+      if(busy){ raf = requestAnimationFrame(loop); }
+      else { running = false; ctx.clearRect(0, 0, W, H); } // fully settled → nothing drawn
+    }
+
+    build();
+    addEventListener('resize', () => { build(); if(running) frame(); });
+  })();
+
+  // on-this-page scroll-spy + sliding indicator
+  (function(){
+    const list=document.querySelector('.toc-list');
+    const links=[...document.querySelectorAll('.toc-link')];
+    if(!list||!links.length) return;
+    const ind=list.querySelector('.toc-ind');
+    const map={};
+    links.forEach(l=>{ map[l.getAttribute('href').slice(1)]=l; });
+    const targets=Object.keys(map).map(id=>document.getElementById(id)).filter(Boolean);
+    let current=null;
+    function place(link,animate){
+      if(!ind||!link) return;
+      if(animate===false) ind.style.transition='none';
+      ind.style.height=link.offsetHeight+'px';
+      ind.style.transform='translateY('+link.offsetTop+'px)';
+      if(animate===false) requestAnimationFrame(function(){ ind.style.transition=''; });
+    }
+    function setActive(link){
+      if(!link||link===current) return;
+      current=link;
+      links.forEach(l=>l.classList.remove('active'));
+      link.classList.add('active');
+      place(link,true);
+    }
+    const io=new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if(e.isIntersecting && map[e.target.id]) setActive(map[e.target.id]); });
+    },{rootMargin:'-45% 0px -50% 0px',threshold:0});
+    targets.forEach(t=>io.observe(t));
+    requestAnimationFrame(function(){ current=links[0]; links[0].classList.add('active'); place(links[0],false); });
+    addEventListener('resize', function(){ if(current) place(current,false); });
+  })();
+  // hide the on-this-page nav near the footer / more case studies
+  (function(){
+    const toc=document.querySelector('.toc'); const more=document.querySelector('.more');
+    if(!toc||!more) return;
+    const io=new IntersectionObserver(function(es){ es.forEach(function(e){ toc.classList.toggle('hide', e.isIntersecting); }); },{rootMargin:'0px 0px -35% 0px',threshold:0});
+    io.observe(more);
+  })();
+</script>
+<script src="assets/nav.js"></script>
+</body>
+</html>
