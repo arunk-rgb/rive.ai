@@ -281,9 +281,9 @@
 
   /* ---------- CASE STUDIES ---------- */
   /* full-width WHITE section; content aligns to site gutter, carousel bleeds right (Tensor-style) */
-  #cases{--gutter:max(24px, calc((100vw - 1440px) / 2 + 24px));background:#fff;width:100%;padding:clamp(64px,8vw,112px) 0}
+  #cases{--gutter:max(24px, calc((100vw - 1440px) / 2 + 24px));background:#fff;width:100%;padding:clamp(29px,4.2vw,53px) 0 clamp(64px,8vw,112px)}
   .cases-inner{padding-left:var(--gutter);padding-right:var(--gutter)}
-  .cases-h{font-family:var(--sans);font-weight:600;font-size:clamp(34px,4.6vw,56px);letter-spacing:-.02em;line-height:1.02;color:#1a1a1a;margin:0 0 46px}
+  .cases-h{font-family:var(--sans);font-weight:600;font-size:clamp(30px,4.4vw,52px);letter-spacing:-.03em;line-height:1.08;color:#1a1a1a;text-align:center;max-width:760px;margin:0 auto clamp(21px,2.6vw,30px);padding:clamp(8px,2vw,20px) 0}
   .cases-track{display:grid;grid-auto-flow:column;grid-auto-columns:calc((100% - 48px) / 3);gap:24px;overflow-x:auto;
     scroll-snap-type:x mandatory;scroll-behavior:smooth;padding:4px 0 16px;-ms-overflow-style:none;scrollbar-width:none}
   .cases-track::-webkit-scrollbar{display:none}
@@ -303,10 +303,9 @@
     background-size:22px 22px;transition:transform .7s cubic-bezier(.2,.7,.2,1)}
   .case-card:hover .case-media.dc::after{transform:scale(1.06)}
   .case-title{margin-top:18px;font-family:var(--sans);font-weight:600;font-size:19px;line-height:1.3;letter-spacing:-.02em;color:#1a1a1a}
-  .case-pill{align-self:flex-start;margin-top:16px;display:inline-flex;align-items:center;
-    font-family:var(--sans);font-size:13px;font-weight:500;color:#2b2926;background:#fff;
-    border:1px solid var(--line-2);border-radius:100px;padding:10px 20px;transition:border-color .2s,color .2s,background .2s}
-  .case-pill:hover{border-color:var(--ink);color:#000;background:var(--panel-2)}
+  .case-pill{align-self:flex-start;margin-top:7px;display:inline-flex;
+    font-family:var(--sans);font-size:14px;font-weight:500;line-height:1.4;color:var(--muted);transition:color .2s}
+  .case-pill:hover{color:var(--ink)}
   .cases-foot{display:flex;justify-content:flex-end;gap:12px;margin-top:40px}
   .cases-arrow{width:58px;height:58px;border-radius:50%;background:var(--dark);color:#f4f2ee;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;transition:background .2s,transform .2s,opacity .2s}
   .cases-arrow:hover{background:var(--dark-hover);transform:translateY(-2px)}
@@ -479,45 +478,45 @@
   @media(max-width:480px){.flow-src-grid{grid-template-columns:1fr 1fr}}
 
   /* ---------- BENTO GRID (dark) ---------- */
-  .bento-sec{padding:clamp(56px,8vw,104px) 0}
-  .bento-h{font-family:var(--sans);font-weight:600;font-size:clamp(34px,4.6vw,56px);letter-spacing:-.02em;line-height:1.02;color:var(--ink);margin:0}
-  .bento-sub{margin:14px 0 0;font-size:clamp(16px,1.8vw,20px);line-height:1.55;color:var(--muted);max-width:52ch}
-  .bento-grid{margin-top:clamp(28px,4vw,52px);display:grid;grid-template-columns:repeat(6,1fr);gap:16px}
-  .bento-card{position:relative;display:flex;flex-direction:column;overflow:hidden;border-radius:22px;background:#0b0c0c;border:1px solid rgba(255,255,255,.1);box-shadow:0 -20px 80px -20px rgba(134,134,240,.16) inset,0 10px 30px -18px rgba(0,0,0,.6);color:#fff;transition:transform .3s ease,box-shadow .3s ease}
-  .bento-card:hover{transform:translateY(-4px);box-shadow:0 -20px 90px -18px rgba(134,134,240,.28) inset,0 18px 44px -20px rgba(0,0,0,.7)}
+  .bento-sec{padding:clamp(56px,8vw,104px) 0 clamp(34px,4.8vw,62px);background:#ffffff}
+  .bento-h{font-family:var(--sans);font-weight:600;font-size:clamp(30px,4.4vw,52px);letter-spacing:-.03em;line-height:1.08;color:var(--ink);text-align:center;max-width:none;margin:0 auto clamp(12px,1.6vw,18px);padding:clamp(8px,2vw,20px) 0 0;text-wrap:balance}
+  .bento-sub{margin:0 auto clamp(40px,5vw,64px);text-align:center;font-size:clamp(16px,1.8vw,20px);line-height:1.55;color:var(--muted);max-width:52ch}
+  .bento-grid{margin-top:0;display:grid;grid-template-columns:repeat(6,1fr);gap:16px}
+  .bento-card{position:relative;display:flex;flex-direction:column;overflow:hidden;border-radius:22px;background:#f5f5f7;border:none;box-shadow:none;color:#1d1d1f;transition:background .3s ease}
+  .bento-card:hover{background:#efeff2}
   .bento-graphic{position:relative;height:29rem;flex-shrink:0}
   .bento-svg{position:absolute;inset:0;width:100%;height:100%;display:block;z-index:1}
   .bento-svg text{font-weight:500}
-  .bento-body{position:relative;z-index:2;padding:34px 38px;margin-top:-120px;height:14rem;background:rgba(8,10,9,.32);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+  .bento-body{position:relative;z-index:2;padding:clamp(30px,3vw,40px);background:transparent}
   .bento-eyebrow{font-family:var(--sans);letter-spacing:.01em;font-size:13px;color:#00A21E;margin:0}
-  .bento-body h3{margin:8px 0 0;font-size:clamp(20px,2vw,26px);letter-spacing:-.02em;line-height:1.15;color:#f2f2f5;font-weight:600}
-  .bento-body p{margin:10px 0 0;max-width:600px;font-size:14px;line-height:1.6;color:#c6c6cf}
+  .bento-body h3{margin:8px 0 0;font-size:clamp(20px,2vw,26px);letter-spacing:-.02em;line-height:1.15;color:#1d1d1f;font-weight:600}
+  .bento-body p{margin:10px 0 0;max-width:600px;font-size:14px;line-height:1.6;color:#6e6e73}
   .bento-a{grid-column:span 3}.bento-b{grid-column:span 3}
   .bento-c{grid-column:span 2}.bento-d{grid-column:span 2}.bento-e{grid-column:span 2}
-  .bento-a .bento-graphic{background:radial-gradient(120% 90% at 22% 18%,rgba(0,162,30,.38),transparent 60%),linear-gradient(180deg,#0e100f,#080a09)}
-  .bento-b .bento-graphic{background:radial-gradient(120% 90% at 80% 18%,rgba(56,228,255,.24),transparent 60%),linear-gradient(180deg,#0d0f12,#080a0b)}
-  .bento-c .bento-graphic{background:radial-gradient(120% 100% at 50% 8%,rgba(171,255,2,.22),transparent 60%),linear-gradient(180deg,#0e100c,#080a07)}
-  .bento-d .bento-graphic{background:radial-gradient(120% 100% at 30% 12%,rgba(134,134,240,.30),transparent 60%),linear-gradient(180deg,#0d0d12,#08080b)}
-  .bento-e .bento-graphic{background:radial-gradient(120% 100% at 70% 12%,rgba(0,162,30,.22),transparent 62%),linear-gradient(180deg,#0c0f0f,#080a0a)}
-  .istack{position:absolute;left:50%;top:42%;transform:translate(-50%,-50%);width:clamp(150px,19vw,206px);color:#fff;--istack-bg:#0a0c0b}
+  .bento-a .bento-graphic{background:transparent}
+  .bento-b .bento-graphic{background:transparent}
+  .bento-c .bento-graphic{background:transparent}
+  .bento-d .bento-graphic{background:transparent}
+  .bento-e .bento-graphic{background:transparent}
+  .istack{position:absolute;left:50%;top:42%;transform:translate(-50%,-50%);width:clamp(150px,19vw,206px);color:#1d1d1f;--istack-bg:#ffffff}
   .istack-svg{width:100%;height:auto;overflow:visible;display:block}
   .istack-shadow{filter:blur(4px)}
-  .istack-layer{fill:var(--istack-bg);stroke:currentColor;stroke-opacity:.2;stroke-width:.5;stroke-linecap:round;stroke-linejoin:round}
-  .istack-layer.active{stroke-opacity:.3}
-  .istack-icon{position:absolute;left:71%;top:58%;transform:translate(-50%,-50%) scaleX(.9) skewY(-26deg);color:#3DDC84;display:flex;align-items:center;justify-content:center}
+  .istack-layer{fill:var(--istack-bg);stroke:currentColor;stroke-opacity:.22;stroke-width:.5;stroke-linecap:round;stroke-linejoin:round}
+  .istack-layer.active{stroke-opacity:.34}
+  .istack-icon{position:absolute;left:71%;top:58%;transform:translate(-50%,-50%) scaleX(.9) skewY(-26deg);color:#00A21E;display:flex;align-items:center;justify-content:center}
   .istack-icon svg{width:clamp(30px,3.9vw,42px);height:auto;display:block}
   .kgtree{position:absolute;left:20px;right:20px;top:20px;bottom:140px}
   .kgtree svg{width:100%;height:100%;display:block;overflow:visible}
-  .kgtree .kg-link{fill:none;stroke:rgba(120,220,255,.30);stroke-width:1.4}
-  .kgtree .kg-node rect{fill:#0c1013;stroke:rgba(120,220,255,.5);stroke-width:1.3}
-  .kgtree .kg-node.leaf rect{stroke:rgba(190,235,250,.34);stroke-dasharray:3 3}
-  .kgtree .kg-root circle{fill:#38E4FF;stroke:rgba(255,255,255,.55);stroke-width:1.2;stroke-dasharray:3 3}
-  .kgtree text{font-family:var(--sans);font-weight:500;fill:#e6f4fa;text-anchor:middle;dominant-baseline:central;pointer-events:none;letter-spacing:-.01em}
-  .kgtree .kg-root text{fill:#05242a;font-weight:700}
+  .kgtree .kg-link{fill:none;stroke:rgba(20,18,20,.28);stroke-width:1.4}
+  .kgtree .kg-node rect{fill:#ffffff;stroke:rgba(20,18,20,.38);stroke-width:1.3}
+  .kgtree .kg-node.leaf rect{stroke:rgba(20,18,20,.28);stroke-dasharray:3 3}
+  .kgtree .kg-root circle{fill:#00A21E;stroke:rgba(20,18,20,.15);stroke-width:1.2;stroke-dasharray:3 3}
+  .kgtree text{font-family:var(--sans);font-weight:500;fill:#1d1d1f;text-anchor:middle;dominant-baseline:central;pointer-events:none;letter-spacing:-.01em}
+  .kgtree .kg-root text{fill:#ffffff;font-weight:700}
   @media(max-width:900px){
     .bento-grid{grid-template-columns:1fr}
     .bento-a,.bento-b,.bento-c,.bento-d,.bento-e{grid-column:auto}
-    .bento-graphic{height:20rem}.bento-body{margin-top:-110px}
+    .bento-graphic{height:20rem}
   }
 
   /* ---------- SHADER CTA (Book a demo) ---------- */
@@ -546,8 +545,9 @@
 
 
   /* ---------- INDUSTRIES CAROUSEL ---------- */
-  .mp-sec{padding:clamp(56px,8vw,104px) 0}
-  .mp-h{font-family:var(--sans);font-weight:600;font-size:clamp(34px,4.6vw,56px);letter-spacing:-.02em;line-height:1.02;color:var(--ink);margin:0 0 clamp(26px,3.4vw,44px)}
+  .mp-sec{padding:clamp(34px,4.8vw,62px) 0 0}
+  .mp-h{font-family:var(--sans);font-weight:600;font-size:clamp(30px,4.4vw,52px);letter-spacing:-.03em;line-height:1.08;color:var(--ink);text-align:center;max-width:760px;margin:0 auto clamp(12px,1.6vw,18px);padding:clamp(8px,2vw,20px) 0 0}
+  .mp-sub{margin:0 auto clamp(68px,8.4vw,104px);text-align:center;font-size:clamp(16px,1.8vw,20px);line-height:1.55;color:var(--muted);max-width:52ch}
   .mp-controls{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:0;flex-wrap:wrap}
   .mp-tabs{display:flex;gap:8px;flex-wrap:wrap}
   .mp-tab{font-family:var(--sans);font-size:13.5px;font-weight:500;color:var(--muted);background:transparent;border:1px solid var(--line);border-radius:999px;padding:10px 18px;cursor:pointer;transition:color .2s,background .2s,border-color .2s;white-space:nowrap}
@@ -558,7 +558,7 @@
   .mp-arrow:hover:not(:disabled){background:var(--ink);color:#fff;border-color:var(--ink)}
   .mp-arrow:disabled{opacity:.3;cursor:default}
   .mp-arrow svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-  .mp-track{position:relative;display:flex;gap:18px;margin-top:16px;overflow-x:auto;overflow-y:visible;scroll-behavior:smooth;scroll-snap-type:x mandatory;scrollbar-width:none;padding:18px 4px 46px;-webkit-overflow-scrolling:touch}
+  .mp-track{position:relative;display:flex;gap:18px;margin-top:6px;overflow-x:auto;overflow-y:visible;scroll-behavior:smooth;scroll-snap-type:x mandatory;scrollbar-width:none;padding:18px 0 46px;-webkit-overflow-scrolling:touch}
   .mp-track::-webkit-scrollbar{display:none}
   .mp-card{position:relative;flex:0 0 clamp(320px,52%,620px);aspect-ratio:3/2;border-radius:24px;overflow:hidden;scroll-snap-align:center;cursor:pointer;filter:saturate(.9) brightness(.9);transition:transform .45s cubic-bezier(.22,1,.36,1),box-shadow .45s ease,filter .45s ease}
   .mp-card:hover{transform:translateY(-6px)}
@@ -742,26 +742,22 @@
 <!-- BENTO GRID: capabilities -->
 <section class="bento-sec" aria-label="Rive capabilities">
   <div class="wrap">
-    <h2 class="bento-h">How Rive is built.</h2>
+    <h2 class="bento-h">The Intelligence Behind Rive</h2>
+    <p class="bento-sub">The foundation that connects your data, systems, and operations to make AI truly actionable.</p>
     <div class="bento-grid">
       <div class="bento-card bento-a">
-        <div class="bento-graphic"><div class="istack" aria-hidden="true"><svg viewBox="0 0 72 81" fill="none" class="istack-svg"><ellipse cx="36" cy="76" rx="30" ry="7" fill="currentColor" fill-opacity="0.055" class="istack-shadow"/><g opacity="0.4" transform="translate(0 0)"><path class="istack-layer" d="M42.2538 2.046C41.4408 1.6325 40.3965 1.6677 39.2612 2.2424L7.9616 18.1934C5.3895 19.5039 3.301 23.1064 3.301 26.2322V64.3226C3.301 66.0677 3.9458 67.2943 4.962 67.8199L1.8363 66.229C0.8201 65.7104 0.1753 64.4771 0.1753 62.732V24.6412C0.1753 21.5085 2.2638 17.913 4.8359 16.6024L36.1355 0.6515C37.2778 0.0698 38.322 0.0416 39.128 0.4551L42.2538 2.046Z"/><path class="istack-layer" d="M42.2545 2.0456C43.2707 2.5643 43.9155 3.7979 43.9155 5.543V43.6337C43.9155 46.7665 41.827 50.3616 39.2549 51.6722L7.9554 67.6235C6.813 68.2052 5.7687 68.2331 4.9628 67.8196C3.9465 67.301 3.3018 66.0673 3.3018 64.3222V26.2318C3.3018 23.0991 5.3903 19.5036 7.9624 18.193L39.2619 2.2421C40.4043 1.6604 41.4486 1.6321 42.2545 2.0456Z"/></g><g opacity="0.6" transform="translate(13.65 6.04)"><path class="istack-layer" d="M42.2538 2.046C41.4408 1.6325 40.3965 1.6677 39.2612 2.2424L7.9616 18.1934C5.3895 19.5039 3.301 23.1064 3.301 26.2322V64.3226C3.301 66.0677 3.9458 67.2943 4.962 67.8199L1.8363 66.229C0.8201 65.7104 0.1753 64.4771 0.1753 62.732V24.6412C0.1753 21.5085 2.2638 17.913 4.8359 16.6024L36.1355 0.6515C37.2778 0.0698 38.322 0.0416 39.128 0.4551L42.2538 2.046Z"/><path class="istack-layer" d="M42.2545 2.0456C43.2707 2.5643 43.9155 3.7979 43.9155 5.543V43.6337C43.9155 46.7665 41.827 50.3616 39.2549 51.6722L7.9554 67.6235C6.813 68.2052 5.7687 68.2331 4.9628 67.8196C3.9465 67.301 3.3018 66.0673 3.3018 64.3222V26.2318C3.3018 23.0991 5.3903 19.5036 7.9624 18.193L39.2619 2.2421C40.4043 1.6604 41.4486 1.6321 42.2545 2.0456Z"/></g><g opacity="0.8" transform="translate(27.32 12.08)"><path class="istack-layer active" d="M42.2538 2.046C41.4408 1.6325 40.3965 1.6677 39.2612 2.2424L7.9616 18.1934C5.3895 19.5039 3.301 23.1064 3.301 26.2322V64.3226C3.301 66.0677 3.9458 67.2943 4.962 67.8199L1.8363 66.229C0.8201 65.7104 0.1753 64.4771 0.1753 62.732V24.6412C0.1753 21.5085 2.2638 17.913 4.8359 16.6024L36.1355 0.6515C37.2778 0.0698 38.322 0.0416 39.128 0.4551L42.2538 2.046Z"/><path class="istack-layer active" d="M42.2545 2.0456C43.2707 2.5643 43.9155 3.7979 43.9155 5.543V43.6337C43.9155 46.7665 41.827 50.3616 39.2549 51.6722L7.9554 67.6235C6.813 68.2052 5.7687 68.2331 4.9628 67.8196C3.9465 67.301 3.3018 66.0673 3.3018 64.3222V26.2318C3.3018 23.0991 5.3903 19.5036 7.9624 18.193L39.2619 2.2421C40.4043 1.6604 41.4486 1.6321 42.2545 2.0456Z"/></g></svg><div class="istack-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg></div></div></div>
         <div class="bento-body"><p class="bento-eyebrow">Shared ontology</p><h3>A common language for your operation</h3><p>Every source, from sensors to suppliers, unified into one semantic model, so your AI finally has context.</p></div>
       </div>
       <div class="bento-card bento-b">
-        <div class="bento-graphic"><div class="kgtree"><svg viewBox="0 0 680 370" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path class="kg-link" d="M480.0 178.0 C556.0 178.0 556.0 138.0 632.0 138.0"/><path class="kg-link" d="M480.0 178.0 C556.0 178.0 556.0 178.0 632.0 178.0"/><path class="kg-link" d="M480.0 178.0 C556.0 178.0 556.0 218.0 632.0 218.0"/><path class="kg-link" d="M328.0 138.0 C404.0 138.0 404.0 98.0 480.0 98.0"/><path class="kg-link" d="M328.0 138.0 C404.0 138.0 404.0 178.0 480.0 178.0"/><path class="kg-link" d="M176.0 71.3 C252.0 71.3 252.0 18.0 328.0 18.0"/><path class="kg-link" d="M176.0 71.3 C252.0 71.3 252.0 58.0 328.0 58.0"/><path class="kg-link" d="M176.0 71.3 C252.0 71.3 252.0 138.0 328.0 138.0"/><path class="kg-link" d="M176.0 318.0 C252.0 318.0 252.0 298.0 328.0 298.0"/><path class="kg-link" d="M176.0 318.0 C252.0 318.0 252.0 338.0 328.0 338.0"/><path class="kg-link" d="M24.0 215.8 C100.0 215.8 100.0 71.3 176.0 71.3"/><path class="kg-link" d="M24.0 215.8 C100.0 215.8 100.0 258.0 176.0 258.0"/><path class="kg-link" d="M24.0 215.8 C100.0 215.8 100.0 318.0 176.0 318.0"/><g class="kg-node leaf"><rect x="293.0" y="5.0" width="70" height="26" rx="13"/><text x="328.0" y="18.0" font-size="12">Pump</text></g><g class="kg-node leaf"><rect x="293.0" y="45.0" width="70" height="26" rx="13"/><text x="328.0" y="58.0" font-size="12">Motor</text></g><g class="kg-node leaf"><rect x="445.0" y="85.0" width="70" height="26" rx="13"/><text x="480.0" y="98.0" font-size="12">Sensor</text></g><g class="kg-node leaf"><rect x="597.0" y="125.0" width="70" height="26" rx="13"/><text x="632.0" y="138.0" font-size="12">Temp</text></g><g class="kg-node leaf"><rect x="597.0" y="165.0" width="70" height="26" rx="13"/><text x="632.0" y="178.0" font-size="12">Flow</text></g><g class="kg-node leaf"><rect x="597.0" y="205.0" width="70" height="26" rx="13"/><text x="632.0" y="218.0" font-size="12">Vibe</text></g><g class="kg-node"><rect x="445.0" y="165.0" width="70" height="26" rx="7"/><text x="480.0" y="178.0" font-size="12">Signal</text></g><g class="kg-node"><rect x="293.0" y="125.0" width="70" height="26" rx="7"/><text x="328.0" y="138.0" font-size="12">Line</text></g><g class="kg-node"><rect x="141.0" y="58.3" width="70" height="26" rx="7"/><text x="176.0" y="71.3" font-size="12">Asset</text></g><g class="kg-node leaf"><rect x="141.0" y="245.0" width="70" height="26" rx="13"/><text x="176.0" y="258.0" font-size="12">Vendor</text></g><g class="kg-node leaf"><rect x="293.0" y="285.0" width="70" height="26" rx="13"/><text x="328.0" y="298.0" font-size="12">Part</text></g><g class="kg-node leaf"><rect x="293.0" y="325.0" width="70" height="26" rx="13"/><text x="328.0" y="338.0" font-size="12">Log</text></g><g class="kg-node"><rect x="141.0" y="305.0" width="70" height="26" rx="7"/><text x="176.0" y="318.0" font-size="12">Order</text></g><g class="kg-node kg-root"><circle cx="24.0" cy="215.8" r="17"/><text x="24.0" y="215.8" font-size="12">Plant</text></g></svg></div></div>
         <div class="bento-body"><p class="bento-eyebrow">Live knowledge graph</p><h3>A living model of operational reality</h3><p>A continuously updated map of assets, parts, vendors, and workflows. Not static tables, a real-time picture.</p></div>
       </div>
       <div class="bento-card bento-c">
-        <div class="bento-graphic"><div class="istack" aria-hidden="true"><svg viewBox="0 0 72 81" fill="none" class="istack-svg"><ellipse cx="36" cy="76" rx="30" ry="7" fill="currentColor" fill-opacity="0.055" class="istack-shadow"/><g opacity="0.4" transform="translate(0 0)"><path class="istack-layer" d="M42.2538 2.046C41.4408 1.6325 40.3965 1.6677 39.2612 2.2424L7.9616 18.1934C5.3895 19.5039 3.301 23.1064 3.301 26.2322V64.3226C3.301 66.0677 3.9458 67.2943 4.962 67.8199L1.8363 66.229C0.8201 65.7104 0.1753 64.4771 0.1753 62.732V24.6412C0.1753 21.5085 2.2638 17.913 4.8359 16.6024L36.1355 0.6515C37.2778 0.0698 38.322 0.0416 39.128 0.4551L42.2538 2.046Z"/><path class="istack-layer" d="M42.2545 2.0456C43.2707 2.5643 43.9155 3.7979 43.9155 5.543V43.6337C43.9155 46.7665 41.827 50.3616 39.2549 51.6722L7.9554 67.6235C6.813 68.2052 5.7687 68.2331 4.9628 67.8196C3.9465 67.301 3.3018 66.0673 3.3018 64.3222V26.2318C3.3018 23.0991 5.3903 19.5036 7.9624 18.193L39.2619 2.2421C40.4043 1.6604 41.4486 1.6321 42.2545 2.0456Z"/></g><g opacity="0.6" transform="translate(13.65 6.04)"><path class="istack-layer" d="M42.2538 2.046C41.4408 1.6325 40.3965 1.6677 39.2612 2.2424L7.9616 18.1934C5.3895 19.5039 3.301 23.1064 3.301 26.2322V64.3226C3.301 66.0677 3.9458 67.2943 4.962 67.8199L1.8363 66.229C0.8201 65.7104 0.1753 64.4771 0.1753 62.732V24.6412C0.1753 21.5085 2.2638 17.913 4.8359 16.6024L36.1355 0.6515C37.2778 0.0698 38.322 0.0416 39.128 0.4551L42.2538 2.046Z"/><path class="istack-layer" d="M42.2545 2.0456C43.2707 2.5643 43.9155 3.7979 43.9155 5.543V43.6337C43.9155 46.7665 41.827 50.3616 39.2549 51.6722L7.9554 67.6235C6.813 68.2052 5.7687 68.2331 4.9628 67.8196C3.9465 67.301 3.3018 66.0673 3.3018 64.3222V26.2318C3.3018 23.0991 5.3903 19.5036 7.9624 18.193L39.2619 2.2421C40.4043 1.6604 41.4486 1.6321 42.2545 2.0456Z"/></g><g opacity="0.8" transform="translate(27.32 12.08)"><path class="istack-layer active" d="M42.2538 2.046C41.4408 1.6325 40.3965 1.6677 39.2612 2.2424L7.9616 18.1934C5.3895 19.5039 3.301 23.1064 3.301 26.2322V64.3226C3.301 66.0677 3.9458 67.2943 4.962 67.8199L1.8363 66.229C0.8201 65.7104 0.1753 64.4771 0.1753 62.732V24.6412C0.1753 21.5085 2.2638 17.913 4.8359 16.6024L36.1355 0.6515C37.2778 0.0698 38.322 0.0416 39.128 0.4551L42.2538 2.046Z"/><path class="istack-layer active" d="M42.2545 2.0456C43.2707 2.5643 43.9155 3.7979 43.9155 5.543V43.6337C43.9155 46.7665 41.827 50.3616 39.2549 51.6722L7.9554 67.6235C6.813 68.2052 5.7687 68.2331 4.9628 67.8196C3.9465 67.301 3.3018 66.0673 3.3018 64.3222V26.2318C3.3018 23.0991 5.3903 19.5036 7.9624 18.193L39.2619 2.2421C40.4043 1.6604 41.4486 1.6321 42.2545 2.0456Z"/></g></svg><div class="istack-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg></div></div></div>
         <div class="bento-body"><p class="bento-eyebrow">AI agents</p><h3>Detect, decide, execute</h3><p>Agents that act in a closed loop across your systems, not just dashboards that report what already happened.</p></div>
       </div>
       <div class="bento-card bento-d">
-        <div class="bento-graphic"><div class="istack" aria-hidden="true"><svg viewBox="0 0 72 81" fill="none" class="istack-svg"><ellipse cx="36" cy="76" rx="30" ry="7" fill="currentColor" fill-opacity="0.055" class="istack-shadow"/><g opacity="0.4" transform="translate(0 0)"><path class="istack-layer" d="M42.2538 2.046C41.4408 1.6325 40.3965 1.6677 39.2612 2.2424L7.9616 18.1934C5.3895 19.5039 3.301 23.1064 3.301 26.2322V64.3226C3.301 66.0677 3.9458 67.2943 4.962 67.8199L1.8363 66.229C0.8201 65.7104 0.1753 64.4771 0.1753 62.732V24.6412C0.1753 21.5085 2.2638 17.913 4.8359 16.6024L36.1355 0.6515C37.2778 0.0698 38.322 0.0416 39.128 0.4551L42.2538 2.046Z"/><path class="istack-layer" d="M42.2545 2.0456C43.2707 2.5643 43.9155 3.7979 43.9155 5.543V43.6337C43.9155 46.7665 41.827 50.3616 39.2549 51.6722L7.9554 67.6235C6.813 68.2052 5.7687 68.2331 4.9628 67.8196C3.9465 67.301 3.3018 66.0673 3.3018 64.3222V26.2318C3.3018 23.0991 5.3903 19.5036 7.9624 18.193L39.2619 2.2421C40.4043 1.6604 41.4486 1.6321 42.2545 2.0456Z"/></g><g opacity="0.6" transform="translate(13.65 6.04)"><path class="istack-layer" d="M42.2538 2.046C41.4408 1.6325 40.3965 1.6677 39.2612 2.2424L7.9616 18.1934C5.3895 19.5039 3.301 23.1064 3.301 26.2322V64.3226C3.301 66.0677 3.9458 67.2943 4.962 67.8199L1.8363 66.229C0.8201 65.7104 0.1753 64.4771 0.1753 62.732V24.6412C0.1753 21.5085 2.2638 17.913 4.8359 16.6024L36.1355 0.6515C37.2778 0.0698 38.322 0.0416 39.128 0.4551L42.2538 2.046Z"/><path class="istack-layer" d="M42.2545 2.0456C43.2707 2.5643 43.9155 3.7979 43.9155 5.543V43.6337C43.9155 46.7665 41.827 50.3616 39.2549 51.6722L7.9554 67.6235C6.813 68.2052 5.7687 68.2331 4.9628 67.8196C3.9465 67.301 3.3018 66.0673 3.3018 64.3222V26.2318C3.3018 23.0991 5.3903 19.5036 7.9624 18.193L39.2619 2.2421C40.4043 1.6604 41.4486 1.6321 42.2545 2.0456Z"/></g><g opacity="0.8" transform="translate(27.32 12.08)"><path class="istack-layer active" d="M42.2538 2.046C41.4408 1.6325 40.3965 1.6677 39.2612 2.2424L7.9616 18.1934C5.3895 19.5039 3.301 23.1064 3.301 26.2322V64.3226C3.301 66.0677 3.9458 67.2943 4.962 67.8199L1.8363 66.229C0.8201 65.7104 0.1753 64.4771 0.1753 62.732V24.6412C0.1753 21.5085 2.2638 17.913 4.8359 16.6024L36.1355 0.6515C37.2778 0.0698 38.322 0.0416 39.128 0.4551L42.2538 2.046Z"/><path class="istack-layer active" d="M42.2545 2.0456C43.2707 2.5643 43.9155 3.7979 43.9155 5.543V43.6337C43.9155 46.7665 41.827 50.3616 39.2549 51.6722L7.9554 67.6235C6.813 68.2052 5.7687 68.2331 4.9628 67.8196C3.9465 67.301 3.3018 66.0673 3.3018 64.3222V26.2318C3.3018 23.0991 5.3903 19.5036 7.9624 18.193L39.2619 2.2421C40.4043 1.6604 41.4486 1.6321 42.2545 2.0456Z"/></g></svg><div class="istack-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg></div></div></div>
         <div class="bento-body"><p class="bento-eyebrow">The factories</p><h3>Build intelligence that fits</h3><p>Spin up agents, apps, and analytics tailored to your operation, without long development cycles.</p></div>
       </div>
       <div class="bento-card bento-e">
-        <div class="bento-graphic"><div class="istack" aria-hidden="true"><svg viewBox="0 0 72 81" fill="none" class="istack-svg"><ellipse cx="36" cy="76" rx="30" ry="7" fill="currentColor" fill-opacity="0.055" class="istack-shadow"/><g opacity="0.4" transform="translate(0 0)"><path class="istack-layer" d="M42.2538 2.046C41.4408 1.6325 40.3965 1.6677 39.2612 2.2424L7.9616 18.1934C5.3895 19.5039 3.301 23.1064 3.301 26.2322V64.3226C3.301 66.0677 3.9458 67.2943 4.962 67.8199L1.8363 66.229C0.8201 65.7104 0.1753 64.4771 0.1753 62.732V24.6412C0.1753 21.5085 2.2638 17.913 4.8359 16.6024L36.1355 0.6515C37.2778 0.0698 38.322 0.0416 39.128 0.4551L42.2538 2.046Z"/><path class="istack-layer" d="M42.2545 2.0456C43.2707 2.5643 43.9155 3.7979 43.9155 5.543V43.6337C43.9155 46.7665 41.827 50.3616 39.2549 51.6722L7.9554 67.6235C6.813 68.2052 5.7687 68.2331 4.9628 67.8196C3.9465 67.301 3.3018 66.0673 3.3018 64.3222V26.2318C3.3018 23.0991 5.3903 19.5036 7.9624 18.193L39.2619 2.2421C40.4043 1.6604 41.4486 1.6321 42.2545 2.0456Z"/></g><g opacity="0.6" transform="translate(13.65 6.04)"><path class="istack-layer" d="M42.2538 2.046C41.4408 1.6325 40.3965 1.6677 39.2612 2.2424L7.9616 18.1934C5.3895 19.5039 3.301 23.1064 3.301 26.2322V64.3226C3.301 66.0677 3.9458 67.2943 4.962 67.8199L1.8363 66.229C0.8201 65.7104 0.1753 64.4771 0.1753 62.732V24.6412C0.1753 21.5085 2.2638 17.913 4.8359 16.6024L36.1355 0.6515C37.2778 0.0698 38.322 0.0416 39.128 0.4551L42.2538 2.046Z"/><path class="istack-layer" d="M42.2545 2.0456C43.2707 2.5643 43.9155 3.7979 43.9155 5.543V43.6337C43.9155 46.7665 41.827 50.3616 39.2549 51.6722L7.9554 67.6235C6.813 68.2052 5.7687 68.2331 4.9628 67.8196C3.9465 67.301 3.3018 66.0673 3.3018 64.3222V26.2318C3.3018 23.0991 5.3903 19.5036 7.9624 18.193L39.2619 2.2421C40.4043 1.6604 41.4486 1.6321 42.2545 2.0456Z"/></g><g opacity="0.8" transform="translate(27.32 12.08)"><path class="istack-layer active" d="M42.2538 2.046C41.4408 1.6325 40.3965 1.6677 39.2612 2.2424L7.9616 18.1934C5.3895 19.5039 3.301 23.1064 3.301 26.2322V64.3226C3.301 66.0677 3.9458 67.2943 4.962 67.8199L1.8363 66.229C0.8201 65.7104 0.1753 64.4771 0.1753 62.732V24.6412C0.1753 21.5085 2.2638 17.913 4.8359 16.6024L36.1355 0.6515C37.2778 0.0698 38.322 0.0416 39.128 0.4551L42.2538 2.046Z"/><path class="istack-layer active" d="M42.2545 2.0456C43.2707 2.5643 43.9155 3.7979 43.9155 5.543V43.6337C43.9155 46.7665 41.827 50.3616 39.2549 51.6722L7.9554 67.6235C6.813 68.2052 5.7687 68.2331 4.9628 67.8196C3.9465 67.301 3.3018 66.0673 3.3018 64.3222V26.2318C3.3018 23.0991 5.3903 19.5036 7.9624 18.193L39.2619 2.2421C40.4043 1.6604 41.4486 1.6321 42.2545 2.0456Z"/></g></svg><div class="istack-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></div></div></div>
         <div class="bento-body"><p class="bento-eyebrow">Integrations</p><h3>On top of what you run</h3><p>SAP, Maximo, Oracle, and IoT, connected and amplified. Rive does not replace your stack.</p></div>
       </div>
     </div>
@@ -773,7 +769,8 @@
 <!-- INDUSTRIES CAROUSEL -->
 <section class="mp-sec" id="industries" aria-label="Industries">
   <div class="wrap">
-    <h2 class="mp-h">Transforming Industries with Industrial Intelligence</h2>
+    <h2 class="mp-h">Transforming Industries with<br>Industrial Intelligence</h2>
+    <p class="mp-sub">Built to solve the unique operational challenges of different industries.</p>
     <div class="mp-controls">
       <div class="mp-tabs" role="tablist">
         <button class="mp-tab active" data-i="0">High-Tech Manufacturing</button>
@@ -802,13 +799,13 @@
 <!-- CASE STUDIES -->
 <section id="cases">
   <div class="cases-inner">
-    <h2 class="cases-h reveal">Proof from live industrial operations</h2>
+    <h2 class="cases-h reveal">Proof from live<br>industrial operations</h2>
 
     <div class="cases-track reveal" id="casesTrack">
       <article class="case-card">
         <a class="case-media" href="case-orchestrating-maintenance.html"><img src="assets/case-oil-gas.avif" alt="Offshore oil and gas platform" loading="lazy" /></a>
         <h3 class="case-title"><a href="case-orchestrating-maintenance.html">Orchestrating maintenance at industrial scale</a></h3>
-        <a class="case-pill" href="case-orchestrating-maintenance.html">Oil &amp; Gas</a>
+        <a class="case-pill" href="case-orchestrating-maintenance.html">Oil &amp; gas refining</a>
       </article>
 
       <article class="case-card">

@@ -11,6 +11,7 @@
     var mouse = opts.mouse != null ? opts.mouse : 0.1;
     var strength = opts.strength != null ? opts.strength : 0.15;
     var relaxation = opts.relaxation != null ? opts.relaxation : 0.9;
+    var interactive = opts.interactive !== false;
     var imageSrc = opts.imageSrc;
 
     var vertexShader =
@@ -55,9 +56,11 @@
 
     var size = grid;
     var data = new Float32Array(4 * size * size);
-    for (var i = 0; i < size * size; i++) {
-      data[i * 4] = Math.random() * 255 - 125;
-      data[i * 4 + 1] = Math.random() * 255 - 125;
+    if (interactive) {
+      for (var i = 0; i < size * size; i++) {
+        data[i * 4] = Math.random() * 255 - 125;
+        data[i * 4 + 1] = Math.random() * 255 - 125;
+      }
     }
     var dataTexture = new THREE.DataTexture(data, size, size, THREE.RGBAFormat, THREE.FloatType);
     dataTexture.needsUpdate = true;
@@ -100,8 +103,10 @@
       ms.x = x; ms.y = y; ms.prevX = x; ms.prevY = y;
     }
     function onLeave() { dataTexture.needsUpdate = true; ms.x = ms.y = ms.prevX = ms.prevY = ms.vX = ms.vY = 0; }
-    container.addEventListener('mousemove', onMove);
-    container.addEventListener('mouseleave', onLeave);
+    if (interactive) {
+      container.addEventListener('mousemove', onMove);
+      container.addEventListener('mouseleave', onLeave);
+    }
 
     resize();
 
